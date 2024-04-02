@@ -4,6 +4,7 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import dToonSaga from './dToon.saga';
 import cardDetailsSaga from './cardDetails.saga';
+import createdToonSaga from './createToon.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     userSaga(),
     dToonSaga(), // fetch store images
     cardDetailsSaga(), // fetch singular card details
+    createdToonSaga(), // create new dToon path
   ]);  
 }

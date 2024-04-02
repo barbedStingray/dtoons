@@ -36,14 +36,13 @@ const Nav = () => {
             }
             
 {/* Admin Users */}
-            {/* {user.admin ?
+            {user.admin ?
                 <>
-                    <Link ><h3>New dToon</h3></Link>
-                    <Link ><h3>Manage</h3></Link>
+                    <Link to='/newdToon'><h3>New dToon</h3></Link>
                 </>
                 :
                 <></>
-            } */}
+            }
 
 
         </div>

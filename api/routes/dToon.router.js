@@ -38,11 +38,27 @@ router.get('/cardDetails/:id', (req, res) => {
 
 
 
-/**
- * POST route template
- */
-router.post('/', (req, res) => {
-    // POST route code here
+router.post('/newToon', (req, res) => {
+
+    console.log('req.body', req.body);
+
+    const queryText = `INSERT INTO "dtoons"
+        ("cardtitle", "character", "image", "color", "points")
+        VALUES ($1, $2, $3, $4, $5);`;
+
+        pool.query(queryText, [
+            req.body.cardtitle,
+            req.body.character,
+            req.body.image,
+            req.body.color,
+            req.body.points,
+        ]).then((result) => {
+            console.log(`success in POST new dToon`);
+            res.sendStatus(201);
+        }).catch((error) => {
+            console.log(`error in POST /newToon`);
+            res.sendStatus(500);
+        });
 });
 
 module.exports = router;

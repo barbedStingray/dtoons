@@ -18,6 +18,7 @@ import HomePage from '../../pages/HomePage/HomePage';
 import RulesPage from '../../pages/RulesPage/RulesPage';
 import StorePage from '../../pages/StorePage/StorePage';
 import CardDetails from '../../pages/CardDetails/CardDetails';
+import NewdToon from '../../pages/NewdToon/NewdToon';
 
 
 
@@ -64,6 +65,7 @@ function App() {
         <Route path='/rules' element={<ProtectedRoute> <RulesPage /> </ProtectedRoute>} />
         <Route path='/store' element={<ProtectedRoute> <StorePage /> </ProtectedRoute>} />
         <Route path='/cardDetails/:id' element={<ProtectedRoute> <CardDetails /> </ProtectedRoute>} />
+        <Route path='/newdToon' element={<ProtectedRoute> <NewdToon /> </ProtectedRoute>} />
 
       </Routes>
 
