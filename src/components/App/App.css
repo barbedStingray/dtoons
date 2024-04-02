@@ -1,0 +1,48 @@
+
+
+
+
+/* :root {
+
+} */
+
+/* html,
+body,
+#react-root {
+  min-height: 100vh;
+  height: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0px;
+  background-image: url('../../Images/HobbitHole9.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --------------------------------------------------------------------------------
+Alert
+-------------------------------------------------------------------------------- */
+
+.alert {
+  box-sizing: border-box;
+  padding: 15px 10px;
+  margin: 15px 0;
+  border: 2px solid #e01616;
+  background-color: #efefef;
+  border-radius: 3px;
+  color: #e01616;
+  font-size: 0.8rem;
+}
+
