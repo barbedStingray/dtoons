@@ -29,7 +29,6 @@ const Nav = () => {
                 <>
                     <Link to='/store'><h3>dToons</h3></Link>
                     <Link to='/rules'><h3>Rules</h3></Link>
-                    {/* <Link to='/cardDetails'><h3>CardDetails</h3></Link> */}
                
                 </>
                 :

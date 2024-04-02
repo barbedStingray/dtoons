@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import LandingPage from '../../pages/LandingPage/LandingPage';
 
 // A Custom Wrapper Component -- This will keep our code DRY.
 // Responsible for watching redux state, and returning an appropriate component
@@ -30,8 +31,8 @@ function ProtectedRoute({ children }) {
         // Otherwise, redirect to the Loginpage
         // ! This navigate seems to trigger on page refreshes
         // <Navigate to='/' />
-        // ! substitude empty stuff for now
-        <></>
+        // ! substitude landing page for now
+        <LandingPage />
       }
     </>
 
