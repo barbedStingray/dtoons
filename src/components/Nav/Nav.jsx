@@ -27,9 +27,10 @@ const Nav = () => {
 {/* Logged in users */}
             {user.id ?
                 <>
-                    <Link to='/store'><h3>dToons</h3></Link>
+                    <Link to='/store'><h3>dToons Store</h3></Link>
+                    <Link to='/mydToons'><h3>myToons</h3></Link>
                     <Link to='/rules'><h3>Rules</h3></Link>
-               
+                    <Link to='/decks'><h3>Decks</h3></Link>
                 </>
                 :
                 <></>

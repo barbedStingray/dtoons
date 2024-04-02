@@ -32,7 +32,7 @@ function dToonDetails(toonId) {
 
   return (
     <div>
-      <h1>dToon Store</h1>
+      <h1>STORE dToons</h1>
 
       <h2>So. Many. Cards.</h2>
 
