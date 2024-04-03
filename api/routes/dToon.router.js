@@ -25,7 +25,9 @@ router.get('/store', (req, res) => {
 router.get('/collection/:id', (req, res) => {
     console.log('in /collection/:id');
 
-    const queryText = `SELECT "dtoons"."id",
+    // use dcollection.id to remove user specific cards from their library
+    const queryText = `SELECT 
+    "dcollection"."id",
     "dtoons"."cardtitle",
     "dtoons"."character",
     "dtoons"."image",
@@ -115,8 +117,9 @@ router.post('/newToon', (req, res) => {
     console.log('req.body', req.body);
 
     const queryText = `INSERT INTO "dtoons"
-        ("cardtitle", "character", "image", "color", "points")
-        VALUES ($1, $2, $3, $4, $5);`;
+        ("cardtitle", "character", "image", "color", "points", "desc0", "desc1", 
+        "cardtype", "cardkind", "group", "gender", "role", "rarity", "movie")
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14);`;
 
     pool.query(queryText, [
         req.body.cardtitle,
@@ -124,6 +127,16 @@ router.post('/newToon', (req, res) => {
         req.body.image,
         req.body.color,
         req.body.points,
+        req.body.desc0,
+        req.body.desc1,
+        req.body.cardtype,
+        req.body.cardkind,
+        req.body.group,
+        req.body.gender,
+        req.body.role,
+        req.body.rarity,
+        req.body.movie
+        
     ]).then((result) => {
         console.log(`success in POST new dToon`);
         res.sendStatus(201);

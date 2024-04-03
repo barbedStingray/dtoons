@@ -12,7 +12,16 @@ const NewdToon = () => {
         character: '',
         image: '',
         color: '',
-        points: ''
+        points: '',
+        desc0: '',
+        desc1: '',
+        cardtype: '',
+        cardkind: '',
+        group: '',
+        gender: '',
+        role: '',
+        rarity: '',
+        movie: '',
     });
 
     // one function, sets all variables
@@ -20,10 +29,17 @@ const NewdToon = () => {
         setNewToon({ ...newToon, [key]: e.target.value });
     }
 
+    function verifyPhoto() {
+        console.log(`lets check the photo...`);
+    }
+
     function createNewdToon(e) {
         e.preventDefault();
         console.log(`submitting data to create dToon`, newToon);
         dispatch({ type: 'CREATE_NEW_DTOON', payload: newToon })
+
+        // todo clear inputs
+        
     }
 
     // mapping input types
@@ -57,6 +73,60 @@ const NewdToon = () => {
             placeholder: 'Points',
             type: 'text',
             attribute: 'points'
+        },
+        {
+            value: newToon.desc0,
+            placeholder: 'first ability',
+            type: 'text',
+            attribute: 'desc0'
+        },
+        {
+            value: newToon.desc1,
+            placeholder: 'second ability',
+            type: 'text',
+            attribute: 'desc1'
+        },
+        {
+            value: newToon.cardtype,
+            placeholder: 'Card Type',
+            type: 'text',
+            attribute: 'cardtype'
+        },
+        {
+            value: newToon.cardkind,
+            placeholder: 'Card Kind',
+            type: 'text',
+            attribute: 'cardkind'
+        },
+        {
+            value: newToon.group,
+            placeholder: 'Groups...',
+            type: 'text',
+            attribute: 'group'
+        },
+        {
+            value: newToon.gender,
+            placeholder: 'Gender',
+            type: 'text',
+            attribute: 'gender'
+        },
+        {
+            value: newToon.role,
+            placeholder: 'Role...',
+            type: 'text',
+            attribute: 'role'
+        },
+        {
+            value: newToon.rarity,
+            placeholder: 'Rarity',
+            type: 'text',
+            attribute: 'rarity'
+        },
+        {
+            value: newToon.movie,
+            placeholder: 'Movie',
+            type: 'text',
+            attribute: 'movie'
         }
     ];
 
@@ -77,10 +147,12 @@ const NewdToon = () => {
                         attribute={box.attribute}
                     />
                 ))}
-
+                
                 <button type='submit' >Create</button>
-
             </form>
+
+            <button onClick={() => verifyPhoto()}>Verify URL</button>
+
 
 
             <br />

@@ -23,9 +23,6 @@ import DecksPage from '../../pages/DecksPage/DecksPage';
 
 import NewdToon from '../../pages/NewdToon/NewdToon';
 
-
-
-
 // css
 import './App.css';
 
