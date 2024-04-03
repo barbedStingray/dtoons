@@ -19,8 +19,41 @@ router.get('/store', (req, res) => {
     });
 });
 
+
+
 // dToon user specific collection
-router.get()
+router.get('/collection/:id', (req, res) => {
+    console.log('in /collection/:id');
+
+    const queryText = `SELECT "dtoons"."id",
+    "dtoons"."cardtitle",
+    "dtoons"."character",
+    "dtoons"."image",
+    "dtoons"."color",
+    "dtoons"."points",
+    "dtoons"."desc0",
+    "dtoons"."desc1",
+    "dtoons"."cardtype",
+    "dtoons"."cardkind",
+    "dtoons"."group",
+    "dtoons"."gender",
+    "dtoons"."role",
+    "dtoons"."rarity",
+    "dtoons"."movie"
+FROM "dcollection"
+
+JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+WHERE "user_id" = $1;`;
+
+    pool.query(queryText, [req.params.id]).then((result) => {
+        console.log(`success!`);
+        console.log(result.rows);
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('Error in /collection/:id');
+        res.sendStatus(500);
+    });
+})
 
 
 // GET /cardDetails
@@ -58,8 +91,8 @@ router.post('/purchase', async (req, res) => {
         const toonOne = newToons.rows[0].id;
         const toonTwo = newToons.rows[1].id;
 
-        await pool.query(postText, [ req.body.id, toonOne ]);
-        await pool.query(postText, [ req.body.id, toonTwo ]);
+        await pool.query(postText, [req.body.id, toonOne]);
+        await pool.query(postText, [req.body.id, toonTwo]);
 
         // res.sendStatus(201);
         // send your toons back to the buydToonPack.saga

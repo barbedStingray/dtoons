@@ -4,6 +4,7 @@ import user from './user.reducer';
 import dToonsStore from './dToonStore.reducer';
 import cardDetails from './cardDetails.reducer';
 import congratsNewdToons from './congratulations.reducer';
+import userCollection from './userCollection.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   dToonsStore, // display for dToon store
   cardDetails, // single card detail display
   congratsNewdToons, // sets newly bought dToons
+  userCollection, // sets the users collection of cards
   
 });
 

@@ -6,6 +6,7 @@ import dToonStoreSaga from './dToonStore.saga';
 import cardDetailsSaga from './cardDetails.saga';
 import createdToonSaga from './createToon.saga';
 import buydToonPackSaga from './buydToonPack.saga';
+import userCollectionSaga from './userCollection.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -22,5 +23,6 @@ export default function* rootSaga() {
     cardDetailsSaga(), // fetch singular card details
     createdToonSaga(), // create new dToon path
     buydToonPackSaga(), // purchase dToon pack
+    userCollectionSaga(), // displays the users collection
   ]);  
 }
