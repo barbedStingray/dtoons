@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 
-// dToon 3 random
+// dToon 3 random store display
 router.get('/store', (req, res) => {
     const queryText = `SELECT * FROM "dtoons"
                         ORDER BY RANDOM() LIMIT 3;`;
@@ -18,6 +18,9 @@ router.get('/store', (req, res) => {
         res.sendStatus(500);
     });
 });
+
+// dToon user specific collection
+router.get()
 
 
 // GET /cardDetails
@@ -55,10 +58,8 @@ router.post('/purchase', async (req, res) => {
         const toonOne = newToons.rows[0].id;
         const toonTwo = newToons.rows[1].id;
 
-
         await pool.query(postText, [ req.body.id, toonOne ]);
         await pool.query(postText, [ req.body.id, toonTwo ]);
-
 
         // res.sendStatus(201);
         // send your toons back to the buydToonPack.saga
@@ -68,12 +69,6 @@ router.post('/purchase', async (req, res) => {
         console.log('Error in /purchase dToons');
         res.sendStatus(500);
     }
-
-
-
-
-
-
 });
 
 
