@@ -3,7 +3,7 @@ import { takeLatest, put } from 'redux-saga/effects';
 
 
 // Generate List of dToons
-function* fetchDtoons(action) {
+function* fetchDtoonsStore(action) {
     try {
         console.log('in fetch dToons saga');
 
@@ -12,7 +12,7 @@ function* fetchDtoons(action) {
 
 
         // dispatch action to set reducer
-        yield put({ type: 'SET_DTOONS', payload: dToons.data });
+        yield put({ type: 'SET_DTOONS_STORE', payload: dToons.data });
 
 
     } catch (error) {
@@ -21,9 +21,9 @@ function* fetchDtoons(action) {
     }
   }
 
-  function* dToonSaga() {
-    yield takeLatest('FETCH_DTOONS', fetchDtoons);
+  function* dToonStoreSaga() {
+    yield takeLatest('FETCH_DTOONS_STORE', fetchDtoonsStore);
   }
 
   
-  export default dToonSaga;
+  export default dToonStoreSaga;

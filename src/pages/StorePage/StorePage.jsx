@@ -8,32 +8,50 @@ import './StorePage.css';
 
 const StorePage = () => {
 
-  const dToons = useSelector((store) => store.dToons);
+  const dToons = useSelector((store) => store.dToonsStore);
+  const user = useSelector((store) => store.user);
+  const newToons = useSelector((store) => store.congratsNewdToons);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
 
 useEffect(() => {
-  fetchDtoons();
+  fetchDtoonsStore();
 }, []);
 
-function fetchDtoons() {
+function fetchDtoonsStore() {
   console.log(`fetching dToon store`);
-  dispatch({ type: 'FETCH_DTOONS' }); // no payload
+  dispatch({ type: 'FETCH_DTOONS_STORE' }); // no payload
 }
 
+// view dToon details on separate page
 function dToonDetails(toonId) {
   console.log('getting dToon details');
   // dispatch to set reducer with card details
-  dispatch({ type: 'FETCH_CARD_DETAILS', payload: toonId })
+  dispatch({ type: 'FETCH_CARD_DETAILS', payload: toonId });
   navigate(`/cardDetails/${toonId}`);
 }
+
+// purchase dToon pack
+function buydToonPack() {
+  console.log('buying dtoon pack of 2', user.id );
+  dispatch({ type: 'BUY_DTOON_PACK', payload: user });
+}
+
+
+
 
   return (
     <div>
       <h1>STORE dToons</h1>
 
+    <button onClick={buydToonPack}>Buy dToon Pack</button>
+
+    {JSON.stringify(newToons)}
+
+
+{/* This will eventually be a scrolling display */}
       <h2>So. Many. Cards.</h2>
 
       {dToons.map((toon, i) => (

@@ -2,9 +2,10 @@ import { all, takeLatest, takeEvery, put } from 'redux-saga/effects';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
-import dToonSaga from './dToon.saga';
+import dToonStoreSaga from './dToonStore.saga';
 import cardDetailsSaga from './cardDetails.saga';
 import createdToonSaga from './createToon.saga';
+import buydToonPackSaga from './buydToonPack.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -17,8 +18,9 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
-    dToonSaga(), // fetch store images
+    dToonStoreSaga(), // fetch store images
     cardDetailsSaga(), // fetch singular card details
     createdToonSaga(), // create new dToon path
+    buydToonPackSaga(), // purchase dToon pack
   ]);  
 }

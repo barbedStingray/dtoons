@@ -8,12 +8,12 @@ const HomePage = () => {
   // console.log('user', user); // this is the object
 
 
-
   return (
     <div>
       <h1>dToons User Page</h1>
 
       <h1>WELCOME: {user.username}</h1>
+
       
     </div>
   )

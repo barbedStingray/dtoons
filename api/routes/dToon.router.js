@@ -5,15 +5,16 @@ const router = express.Router();
 
 
 
-// dToon CARD ID - IMAGE
+// dToon 3 random
 router.get('/store', (req, res) => {
-    const queryText = `SELECT "id", "image" FROM "dtoons";`;
+    const queryText = `SELECT * FROM "dtoons"
+                        ORDER BY RANDOM() LIMIT 3;`;
 
     pool.query(queryText).then((result) => {
-        console.log(`/dToons query success!`);
+        console.log(`/api/dToons/store query success!`);
         res.send(result.rows);
     }).catch((error) => {
-        console.log('/dToons error query');
+        console.log('/api/dToons/store error query');
         res.sendStatus(500);
     });
 });
@@ -36,8 +37,51 @@ router.get('/cardDetails/:id', (req, res) => {
 
 
 
+// Purchase a dToon pack of 2
+router.post('/purchase', async (req, res) => {
+    console.log('router /purchase');
+    console.log('req.body', req.body);
+
+    try {
+        const getText = `SELECT "id" FROM "dtoons"
+        ORDER BY RANDOM() LIMIT 2;`;
+        const postText = `INSERT INTO "dcollection" ("user_id", "card_id")
+        VALUES ($1, $2)`
+
+        const newToons = await pool.query(getText);
+        console.log('newToons', newToons.rows);
+        console.log('toon_one', newToons.rows[0].id);
+        console.log('toon_two', newToons.rows[1].id);
+        const toonOne = newToons.rows[0].id;
+        const toonTwo = newToons.rows[1].id;
 
 
+        await pool.query(postText, [ req.body.id, toonOne ]);
+        await pool.query(postText, [ req.body.id, toonTwo ]);
+
+
+        // res.sendStatus(201);
+        // send your toons back to the buydToonPack.saga
+        res.status(201).send({ toonOne, toonTwo });
+
+    } catch (error) {
+        console.log('Error in /purchase dToons');
+        res.sendStatus(500);
+    }
+
+
+
+
+
+
+});
+
+
+
+
+
+
+// CREATE NEW DTOON
 router.post('/newToon', (req, res) => {
 
     console.log('req.body', req.body);
@@ -46,19 +90,19 @@ router.post('/newToon', (req, res) => {
         ("cardtitle", "character", "image", "color", "points")
         VALUES ($1, $2, $3, $4, $5);`;
 
-        pool.query(queryText, [
-            req.body.cardtitle,
-            req.body.character,
-            req.body.image,
-            req.body.color,
-            req.body.points,
-        ]).then((result) => {
-            console.log(`success in POST new dToon`);
-            res.sendStatus(201);
-        }).catch((error) => {
-            console.log(`error in POST /newToon`);
-            res.sendStatus(500);
-        });
+    pool.query(queryText, [
+        req.body.cardtitle,
+        req.body.character,
+        req.body.image,
+        req.body.color,
+        req.body.points,
+    ]).then((result) => {
+        console.log(`success in POST new dToon`);
+        res.sendStatus(201);
+    }).catch((error) => {
+        console.log(`error in POST /newToon`);
+        res.sendStatus(500);
+    });
 });
 
 module.exports = router;
