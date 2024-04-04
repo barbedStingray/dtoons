@@ -23,40 +23,37 @@ function RegisterForm() {
   return (
     <form className="formPanel" onSubmit={registerUser}>
       <h2>Register</h2>
+      <div className='formDiv'>
+        <h3>Username</h3>
+        <input
+          type="text"
+          name="username"
+          value={username}
+          className='loginText'
+          required
+          onChange={(event) => setUsername(event.target.value)}
+        />
+      </div>
+      <div className='formDiv'>
+        <h3>Password</h3>
+        <input
+          type="password"
+          name="password"
+          value={password}
+          className='loginText'
+          required
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
+      <div className='formDiv'>
+        <input className='landingButton' type="submit" name="submit" value="Register" />
+      </div>
       {errors.registrationMessage && (
         <h3 className="alert" role="alert">
           {errors.registrationMessage}
         </h3>
       )}
-      <div>
-        <label htmlFor="username">
-          Username:
-          <input
-            type="text"
-            name="username"
-            value={username}
-            className='min-width'
-            required
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label htmlFor="password">
-          Password:
-          <input
-            type="password"
-            name="password"
-            value={password}
-            className='min-width'
-            required
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Register" />
-      </div>
+
     </form>
   );
 }

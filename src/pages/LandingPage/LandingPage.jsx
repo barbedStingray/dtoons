@@ -35,13 +35,21 @@ function LandingPage() {
   return (
     <div className='landingPage'>
 
-      <h2>dToons</h2>
+      <h2>DTOON TITLE</h2>
 
-          <div>
-            { login ? <LoginForm /> : <RegisterForm /> }
+      <div>
+        {login ?
+          <div className='loginBox'>
+            <LoginForm />
+            <button onClick={() => setLogin(!login)} className='swapLogin'>{login ? 'Register' : 'Login'}</button>
           </div>
-
-        <button onClick={() => setLogin(!login)}>{login ? 'Register' : 'Login'}</button>
+          :
+          <div className='loginBox'>
+            <RegisterForm />
+            <button onClick={() => setLogin(!login)} className='swapLogin'>{login ? 'Register' : 'Login'}</button>
+          </div>
+        }
+      </div>
 
     </div>
   );

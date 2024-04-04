@@ -18,7 +18,7 @@ const Nav = () => {
 
 
     return (
-        <div>
+        <div className='navBar'>
             <LogOutButton />
 
             <Link to='/' ><h3>home</h3></Link>

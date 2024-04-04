@@ -29,17 +29,29 @@ const NewdToon = () => {
         setNewToon({ ...newToon, [key]: e.target.value });
     }
 
-    function verifyPhoto() {
-        console.log(`lets check the photo...`);
-    }
-
     function createNewdToon(e) {
         e.preventDefault();
         console.log(`submitting data to create dToon`, newToon);
         dispatch({ type: 'CREATE_NEW_DTOON', payload: newToon })
 
-        // todo clear inputs
-        
+        // clear inputs
+        setNewToon({
+            cardtitle: '',
+            character: '',
+            image: '',
+            color: '',
+            points: '',
+            desc0: '',
+            desc1: '',
+            cardtype: '',
+            cardkind: '',
+            group: '',
+            gender: '',
+            role: '',
+            rarity: '',
+            movie: '',
+        })
+
     }
 
     // mapping input types
@@ -135,7 +147,6 @@ const NewdToon = () => {
         <div>
             <h1>Lets make a dToon</h1>
 
-
             <form onSubmit={createNewdToon}>
                 {inputBoxes.map((box, i) => (
                     <InputChange
@@ -147,17 +158,14 @@ const NewdToon = () => {
                         attribute={box.attribute}
                     />
                 ))}
-                
+
                 <button type='submit' >Create</button>
             </form>
 
-            <button onClick={() => verifyPhoto()}>Verify URL</button>
-
-
-
-            <br />
-
+            
             {JSON.stringify(newToon)}
+
+            <img src={`${newToon.image}`} alt='new toon image' className='toonImage' />
 
 
 

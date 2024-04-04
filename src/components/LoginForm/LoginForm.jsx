@@ -30,40 +30,38 @@ function LoginForm() {
   return (
     <form className="formPanel" onSubmit={login}>
       <h2>Login</h2>
-      {errors.loginMessage && (
-        <h3 className="alert" role="alert">
-          {errors.loginMessage}
-        </h3>
-      )}
-      <div>
-        <label htmlFor="username">
-          Username:
+      
+      <div className='formDiv'>
+      <h3>Username</h3>
           <input
             type="text"
             name="username"
             required
             value={username}
-            className='min-width'
+            className='loginText'
             onChange={(event) => setUsername(event.target.value)}
           />
-        </label>
       </div>
-      <div >
-        <label htmlFor="password">
-          Password:
+      <div className='formDiv'>
+      <h3>Password</h3>
           <input
             type="password"
             name="password"
             required
             value={password}
-            className='min-width'
+            className='loginText'
             onChange={(event) => setPassword(event.target.value)}
           />
-        </label>
       </div>
-      <div>
-        <input className="btn" type="submit" name="submit" value="Log In" />
+      <div className='formDiv'>
+        <input className='landingButton' type="submit" name="submit" value="Log In" />
       </div>
+      {errors.loginMessage && (
+        <h3 className="alert" role="alert">
+          {errors.loginMessage}
+        </h3>
+      )}
+
     </form>
   );
 }
