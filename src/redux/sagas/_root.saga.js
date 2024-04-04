@@ -9,6 +9,9 @@ import buydToonPackSaga from './buydToonPack.saga';
 import userCollectionSaga from './userCollection.saga';
 import createNewDeckSaga from './newDeck.saga';
 import fetchUserDecksSaga from './userDecks.saga';
+import fetchCardsForDeckSaga from './cardsForDeck.saga';
+import addCardToDeckSaga from './addCardtoDeck.saga';
+import deleteCardFromDeckSaga from './deleteCardFromDeck.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -21,6 +24,7 @@ export default function* rootSaga() {
     loginSaga(), // login saga is now registered
     registrationSaga(),
     userSaga(),
+    
     dToonStoreSaga(), // fetch store images
     cardDetailsSaga(), // fetch singular card details
     createdToonSaga(), // create new dToon path
@@ -28,5 +32,8 @@ export default function* rootSaga() {
     userCollectionSaga(), // displays the users collection
     createNewDeckSaga(), // creates a new deck
     fetchUserDecksSaga(), // generates user decks
+    fetchCardsForDeckSaga(), // fetches the cards in a single deck
+    addCardToDeckSaga(), // POST a new card to the deck
+    deleteCardFromDeckSaga(), // deletes a card from the deck
   ]);  
 }

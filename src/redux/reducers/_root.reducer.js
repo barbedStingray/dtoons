@@ -6,6 +6,7 @@ import cardDetails from './cardDetails.reducer';
 import congratsNewdToons from './congratulations.reducer';
 import userCollection from './userCollection.reducer';
 import userDecks from './userDecks.reducer';
+import deckCards from './deckCards.reducer';
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   congratsNewdToons, // sets newly bought dToons
   userCollection, // sets the users collection of cards
   userDecks, // all decks of a user
+  deckCards, // displays cards of a deck
   
 });
 

@@ -34,6 +34,39 @@ router.get('/userDecks/:id', (req, res) => {
     });
 });
 
+// GET Cards in a deck
+router.get('/deck/:id', (req, res) => {
+    console.log('in router GET /deck/:id', req.params.id);
+
+    const queryText = `SELECT 
+    "deck_cards"."id",
+    "dtoons"."cardtitle",
+    "dtoons"."character",
+    "dtoons"."image",
+    "dtoons"."color",
+    "dtoons"."points",
+    "dtoons"."desc0",
+    "dtoons"."desc1",
+    "dtoons"."cardtype",
+    "dtoons"."cardkind",
+    "dtoons"."group",
+    "dtoons"."gender",
+    "dtoons"."role",
+    "dtoons"."rarity",
+    "dtoons"."movie"
+FROM "deck_cards"
+JOIN "dtoons" ON "dtoons"."id" = "deck_cards"."card_id"
+WHERE "deck_id" = $1;`
+
+    pool.query(queryText, [req.params.id]).then((result) => {
+        console.log('success in GET /deck/:id');
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('error in GET /deck/:id');
+        alert('error in GET /deck/:id');
+    });
+});
+
 
 
 // dToon user specific collection
@@ -64,7 +97,7 @@ WHERE "user_id" = $1;`;
 
     pool.query(queryText, [req.params.id]).then((result) => {
         console.log(`success!`);
-        console.log(result.rows);
+        // console.log(result.rows);
         res.send(result.rows);
     }).catch((error) => {
         console.log('Error in /collection/:id');
@@ -140,6 +173,66 @@ router.post('/newDeck/:id', (req, res) => {
         res.sendStatus(500);
     });
 });
+
+
+
+// ! these two are hand n' hand
+// GET request for original ID for POST new card
+router.get('/getCardId/:id', (req, res) => {
+    console.log('getting original toon id', req.params.id);
+
+    const queryText = `SELECT "dtoons"."id" FROM "dcollection"
+    JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+    WHERE "dcollection"."id" = $1;`
+
+    pool.query(queryText, [req.params.id]).then((result) => {
+        console.log('success in Conversion collection to dToon id');
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('error in converting ID collection to dToon');
+        alert('error in converting ID collection to dToon')
+    });
+});
+// POST a card into a deck
+router.post('/addCard', (req, res) => {
+    console.log('req.body', req.body);
+    console.log('req.body', req.body.deckId);
+    console.log('req.body', req.body.newCardId);
+
+    const queryText = `INSERT INTO "deck_cards" ("deck_id", "card_id")
+                        VALUES ( $1, $2 )`;
+
+    pool.query(queryText, [req.body.deckId, req.body.newCardId]).then((result) => {
+        console.log('success in posting to the deck');
+        res.sendStatus(201);
+    }).catch((error) => {
+        console.log('error in post to deck');
+        alert('error in post to deck');
+    });
+});
+
+
+
+
+
+// DELETE card from deck
+router.delete('/deleteFromDeck/:id', (req, res) => {
+    console.log('in /deleteFromDeck/:id', req.params.id);
+
+    const queryText = `DELETE FROM "deck_cards"
+                        WHERE "id" = $1;`
+
+    pool.query(queryText, [req.params.id]).then((result) => {
+        console.log('delete from deck SUCCESS');
+        res.sendStatus(201);
+    }).catch((error) => {
+        console.log('error in delete from deck');
+        res.sendStatus(500);
+    });
+});
+
+
+
 
 
 
