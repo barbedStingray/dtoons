@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const HomePage = () => {
 
   const user = useSelector((store) => store.user);
 
-  // console.log('user', user); // this is the object
+  const dispatch = useDispatch();
 
+  // console.log('user', user); // this is the object
+  
 
   return (
     <div>

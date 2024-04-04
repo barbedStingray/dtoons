@@ -20,6 +20,7 @@ import MydToons from '../../pages/MydToons/MydToons';
 import StorePage from '../../pages/StorePage/StorePage';
 import CardDetails from '../../pages/CardDetails/CardDetails';
 import DecksPage from '../../pages/DecksPage/DecksPage';
+import EditDecksPage from '../../pages/DecksPage/EditDecksPage';
 
 import NewdToon from '../../pages/NewdToon/NewdToon';
 
@@ -70,6 +71,7 @@ function App() {
         <Route path='/mydToons' element={<ProtectedRoute> <MydToons /> </ProtectedRoute>} />
         <Route path='/cardDetails/:id' element={<ProtectedRoute> <CardDetails /> </ProtectedRoute>} />
         <Route path='/decks' element={<ProtectedRoute> <DecksPage /> </ProtectedRoute>} />
+        <Route path='/editDeck/:deckId' element={<ProtectedRoute> <EditDecksPage /> </ProtectedRoute>} />
 
         {/* ADMIN ROUTES */}
         <Route path='/newdToon' element={<ProtectedRoute> <NewdToon /> </ProtectedRoute>} />

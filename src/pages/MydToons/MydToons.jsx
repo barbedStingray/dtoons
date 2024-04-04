@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const MydToons = () => {
 
   const user = useSelector((store) => store.user);
-  const collection = useSelector((store) => store.userCollection);
+  const userCollection = useSelector((store) => store.userCollection);
 
   const dispatch = useDispatch();
 
@@ -25,7 +25,10 @@ function fetchUserdToons() {
     <div>
       <h1>dToon Collection</h1>
 
-    {JSON.stringify(collection)}
+    {/* {JSON.stringify(userCollection)} */}
+    {userCollection.map((card) => (
+      <img className='toonImage' src={card.image} alt='toon image' />
+    ))}
 
     </div>
   )

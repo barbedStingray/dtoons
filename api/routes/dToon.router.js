@@ -19,6 +19,21 @@ router.get('/store', (req, res) => {
     });
 });
 
+// GET user decks
+router.get('/userDecks/:id', (req, res) => {
+    console.log('in GET user decks', req.params.id);
+    const queryText = `SELECT "id", "deckname" FROM "ddecks"
+                        WHERE "user_id" = $1;`;
+
+    pool.query(queryText, [req.params.id]).then((result) => {
+        console.log('success in GET userDecks');
+        res.send(result.rows);
+    }).catch((error) => {
+        console.log('error in GET user decks');
+        alert('Error in GET user Decks');
+    });
+});
+
 
 
 // dToon user specific collection
@@ -104,6 +119,26 @@ router.post('/purchase', async (req, res) => {
         console.log('Error in /purchase dToons');
         res.sendStatus(500);
     }
+});
+
+
+// CREATE A NEW DECK
+router.post('/newDeck/:id', (req, res) => {
+
+    console.log('req.body', req.body.deck);
+    console.log('req.params', req.params.id);
+    const deckName = req.body.deck;
+
+    const queryText = `INSERT INTO "ddecks" ("user_id", "deckname")
+                        VALUES ($1, $2);`;
+
+    pool.query(queryText, [req.params.id, deckName]).then((result) => {
+        console.log('successful new deck added');
+        res.sendStatus(201);
+    }).catch((error) => {
+        console.log('error in creating a new deck');
+        res.sendStatus(500);
+    });
 });
 
 
