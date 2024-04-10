@@ -120,6 +120,52 @@
 
 
 
+/* EDIT DECK PAGE */
+
+.editDeck {
+  border: 2px solid magenta;
+  display: flex;
+  flex-direction: column;
+}
+
+.deckView {
+  border: 2px solid gold;
+  display: flex;
+  flex-wrap: wrap;
+  height: 150px;
+}
+
+.collectionView {
+  border: 2px solid red;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.cardCollection {
+  border: 2px solid blue;
+  width: 80vw;
+  height: 70vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* testing card div motion */
+.card {
+  border: 2px solid green;
+  background: white;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 /* --------------------------------------------------------------------------------

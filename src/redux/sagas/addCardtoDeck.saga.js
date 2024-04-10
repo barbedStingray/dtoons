@@ -7,13 +7,14 @@ function* addCardToDeck(action) {
     try {
         console.log('adding new card to deck saga');
         console.log('action.payload', action.payload);
+        console.log('action.payload', action.payload.dToonId);
 
         // ? I have to get the original id of the toon, not userCollection ID
-        const result = yield axios.get(`/api/dToons/getCardId/${action.payload.cardId}`);
-        // console.log('newCardId', newCardId);
+        const result = yield axios.get(`/api/dToons/getCardId/${action.payload.dToonId}`);
+        // console.log('newCardId', result);
         // console.log('newCardId', result.data[0].id);
         // console.log('deckId', action.payload.deckId);
-        const deckId = action.payload.deckId
+        const deckId = action.payload.deckId;
         const newCardId = result.data[0].id;
         // console.log('new variables', deckId, newCardId);
 

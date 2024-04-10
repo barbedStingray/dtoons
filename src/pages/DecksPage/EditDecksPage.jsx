@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import DragnDrop from '../../components/DragnDrop/DragnDrop';
+import { useDrop } from 'react-dnd';
+
+
+
+
 
 const EditDecksPage = () => {
 
@@ -11,9 +17,8 @@ const EditDecksPage = () => {
 
     const dispatch = useDispatch();
 
-
     const { deckId } = useParams();
-    console.log('deck id', deckId);
+    // console.log('deck id', deckId);
 
     // set card collection reducer
     useEffect(() => {
@@ -31,43 +36,56 @@ const EditDecksPage = () => {
         dispatch({ type: 'FETCH_CARDS_FOR_DECK', payload: deckId });
     }
 
-    function addCardToDeck(cardId) {
-        console.log('adding card to deck', cardId);
-        dispatch({ type: 'ADD_CARD_TO_DECK', payload: { cardId, deckId } });
-    }
-
     function deleteCardFromDeck(cardId) {
         console.log('deleting card from deck');
-        dispatch({ type: 'DELETE_CARD_FROM_DECK', payload: {cardId, deckId} });
+        dispatch({ type: 'DELETE_CARD_FROM_DECK', payload: { cardId, deckId } });
     }
+    // drop functionality
+    const addCardToDeck = (dToon) => {
+        console.log('adding toon id', dToon.id);
+        let dToonId = dToon.id;
+        dispatch({ type: 'ADD_CARD_TO_DECK', payload: { dToonId, deckId } });
+    }
+
+
+    // drop functionality
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: 'dToon',
+        drop: (item) => addCardToDeck(item.dToon),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    }));
 
 
 
     return (
-        <div>
+        <div className='editDeck'>
             <h1>EDIT YOUR DECKNAME</h1>
             <h1>{deckId}</h1>
 
 
-
-            <p>Deck Card List</p>
-            {deckCards.map((card) => (
-                <div key={card.id}>
-                    <img className='toonImage' src={card.image} alt='toon image' />
-                    <button onClick={() => deleteCardFromDeck(card.id, deckId)}>-</button>
-                </div>
-            ))}
-            {/* {JSON.stringify(deckCards)} */}
-
+            <div className='deckView' ref={drop}>
+                {deckCards.map((card) => (
+                    <div key={card.id}>
+                        <img className='toonImage' src={card.image} alt='toon image' />
+                        <button onClick={() => deleteCardFromDeck(card.id, deckId)}>-</button>
+                    </div>
+                ))}
+            </div>
 
             <p>userCollection</p>
-            {/* {JSON.stringify(userCollection)} */}
-            {userCollection.map((card) => (
-                <div key={card.id}>
-                    <img className='toonImage' src={card.image} alt='toon image' />
-                    <button onClick={() => addCardToDeck(card.id, deckId)}>+</button>
-                </div>
-            ))}
+            <div className='collectionView'>
+                {/* {JSON.stringify(userCollection)} */}
+                {userCollection.map((card) => (
+                    <div key={card.id}>
+                        <DragnDrop dToon={card} />
+                    </div>
+                ))}
+            </div>
+
+
+
         </div>
     )
 }

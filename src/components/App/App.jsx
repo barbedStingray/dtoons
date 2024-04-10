@@ -56,27 +56,31 @@ function App() {
 
       <Nav />
 
+      <AnimatePresence
+        mode='wait'
+      // initial={false}
+      >
+        <Routes location={location} key={location.pathname}>
 
-      <Routes location={location} key={location.pathname}>
+          {/* OPEN ROUTES */}
+          <Route path='/' element={<LandingPage />} />
+          <Route path='/about' element={<AboutPage />} />
+          {/* <Route path='*' element={<AboutPage />} /> */}
 
-        {/* OPEN ROUTES */}
-        <Route path='/' element={<LandingPage />} />
-        <Route path='/about' element={<AboutPage />} />
-        {/* <Route path='*' element={<AboutPage />} /> */}
+          {/* USER ROUTES */}
+          <Route path='/user' element={<ProtectedRoute> <HomePage /> </ProtectedRoute>} />
+          <Route path='/rules' element={<ProtectedRoute> <RulesPage /> </ProtectedRoute>} />
+          <Route path='/store' element={<ProtectedRoute> <StorePage /> </ProtectedRoute>} />
+          <Route path='/mydToons' element={<ProtectedRoute> <MydToons /> </ProtectedRoute>} />
+          <Route path='/cardDetails/:id' element={<ProtectedRoute> <CardDetails /> </ProtectedRoute>} />
+          <Route path='/decks' element={<ProtectedRoute> <DecksPage /> </ProtectedRoute>} />
+          <Route path='/editDeck/:deckId' element={<ProtectedRoute> <EditDecksPage /> </ProtectedRoute>} />
 
-        {/* USER ROUTES */}
-        <Route path='/user' element={<ProtectedRoute> <HomePage /> </ProtectedRoute>} />
-        <Route path='/rules' element={<ProtectedRoute> <RulesPage /> </ProtectedRoute>} />
-        <Route path='/store' element={<ProtectedRoute> <StorePage /> </ProtectedRoute>} />
-        <Route path='/mydToons' element={<ProtectedRoute> <MydToons /> </ProtectedRoute>} />
-        <Route path='/cardDetails/:id' element={<ProtectedRoute> <CardDetails /> </ProtectedRoute>} />
-        <Route path='/decks' element={<ProtectedRoute> <DecksPage /> </ProtectedRoute>} />
-        <Route path='/editDeck/:deckId' element={<ProtectedRoute> <EditDecksPage /> </ProtectedRoute>} />
+          {/* ADMIN ROUTES */}
+          <Route path='/newdToon' element={<ProtectedRoute> <NewdToon /> </ProtectedRoute>} />
 
-        {/* ADMIN ROUTES */}
-        <Route path='/newdToon' element={<ProtectedRoute> <NewdToon /> </ProtectedRoute>} />
-
-      </Routes>
+        </Routes>
+      </AnimatePresence>
 
     </div>
 
