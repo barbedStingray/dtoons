@@ -129,24 +129,28 @@ router.post('/purchase', async (req, res) => {
     console.log('req.body', req.body);
 
     try {
-        const getText = `SELECT "id" FROM "dtoons"
+        const getText = `SELECT * FROM "dtoons"
         ORDER BY RANDOM() LIMIT 2;`;
         const postText = `INSERT INTO "dcollection" ("user_id", "card_id")
         VALUES ($1, $2)`
 
         const newToons = await pool.query(getText);
-        console.log('newToons', newToons.rows);
-        console.log('toon_one', newToons.rows[0].id);
-        console.log('toon_two', newToons.rows[1].id);
-        const toonOne = newToons.rows[0].id;
-        const toonTwo = newToons.rows[1].id;
+        // console.log('newToons', newToons.rows);
+        console.log('toon_one', newToons.rows[0]);
+        console.log('toon_two', newToons.rows[1]);
+        // console.log('toon_two', newToons.rows[1].id);
+        const toonIdOne = newToons.rows[0].id;
+        const toonIdTwo = newToons.rows[1].id;
+        const toonOne = newToons.rows[0];
+        const toonTwo = newToons.rows[1];
 
-        await pool.query(postText, [req.body.id, toonOne]);
-        await pool.query(postText, [req.body.id, toonTwo]);
+        // post new toons to the user collection
+        await pool.query(postText, [req.body.id, toonIdOne]);
+        await pool.query(postText, [req.body.id, toonIdTwo]);
 
         // res.sendStatus(201);
         // send your toons back to the buydToonPack.saga
-        res.status(201).send({ toonOne, toonTwo });
+        res.status(201).send([ toonOne, toonTwo ]);
 
     } catch (error) {
         console.log('Error in /purchase dToons');

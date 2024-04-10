@@ -18,11 +18,11 @@ import HomePage from '../../pages/HomePage/HomePage';
 import RulesPage from '../../pages/RulesPage/RulesPage';
 import MydToons from '../../pages/MydToons/MydToons';
 import StorePage from '../../pages/StorePage/StorePage';
-import CardDetails from '../../pages/CardDetails/CardDetails';
 import DecksPage from '../../pages/DecksPage/DecksPage';
 import EditDecksPage from '../../pages/DecksPage/EditDecksPage';
+import NewToons from '../../pages/StorePage/NewToons/NewToons';
 
-import NewdToon from '../../pages/NewdToon/NewdToon';
+import CreatedToon from '../../pages/CreatedToon/CreatedToon';
 
 // css
 import './App.css';
@@ -72,12 +72,12 @@ function App() {
           <Route path='/rules' element={<ProtectedRoute> <RulesPage /> </ProtectedRoute>} />
           <Route path='/store' element={<ProtectedRoute> <StorePage /> </ProtectedRoute>} />
           <Route path='/mydToons' element={<ProtectedRoute> <MydToons /> </ProtectedRoute>} />
-          <Route path='/cardDetails/:id' element={<ProtectedRoute> <CardDetails /> </ProtectedRoute>} />
           <Route path='/decks' element={<ProtectedRoute> <DecksPage /> </ProtectedRoute>} />
           <Route path='/editDeck/:deckId' element={<ProtectedRoute> <EditDecksPage /> </ProtectedRoute>} />
+          <Route path='/newdToon' element={<ProtectedRoute> <NewToons /> </ProtectedRoute>} />
 
           {/* ADMIN ROUTES */}
-          <Route path='/newdToon' element={<ProtectedRoute> <NewdToon /> </ProtectedRoute>} />
+          <Route path='/createdToon' element={<ProtectedRoute> <CreatedToon /> </ProtectedRoute>} />
 
         </Routes>
       </AnimatePresence>

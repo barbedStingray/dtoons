@@ -1,8 +1,9 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
+import ExpandableCard from '../ExpandableCard/ExpandableCard';
 
 
-const DragnDrop = ({ dToon }) => {
+const DragnDrop = ({ dToon, toggleCardOpenState, openStates }) => {
 
     // console.log('image', dToon.image );
     // console.log('id', dToon.id );
@@ -16,14 +17,14 @@ const DragnDrop = ({ dToon }) => {
     }));
 
 
+
     return (
-        <img
-            ref={drag}
-            src={dToon.image}
-            alt='dToon DRAG'
-            // width='75px'
-            height='75px'
-            style={{ border: isDragging ? '5px solid gold' : '0px' }}
+
+        <ExpandableCard
+            drag={drag}
+            dToon={dToon}
+            toggleCardOpenState={toggleCardOpenState}
+            openStates={openStates}
         />
     )
 }

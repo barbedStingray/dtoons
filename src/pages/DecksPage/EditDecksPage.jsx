@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import DragnDrop from '../../components/DragnDrop/DragnDrop';
 import { useDrop } from 'react-dnd';
 
+import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
+
 
 
 
@@ -13,7 +15,7 @@ const EditDecksPage = () => {
     const userCollection = useSelector((store) => store.userCollection);
     const deckCards = useSelector((store) => store.deckCards);
     const user = useSelector((store) => store.user);
-    console.log('deckCards', deckCards);
+    // console.log('deckCards', deckCards);
 
     const dispatch = useDispatch();
 
@@ -48,6 +50,21 @@ const EditDecksPage = () => {
     }
 
 
+
+    const [openStates, setOpenStates] = useState([]);
+
+    const toggleCardOpenState = (index) => {
+        // console.log('toggling card index');
+        setOpenStates((prevStates) => {
+            // console.log('openStates', openStates);
+            const newStates = [...prevStates];
+            newStates[index] = !newStates[index];
+            return newStates;
+        });
+    }
+
+
+
     // drop functionality
     const [{ isOver }, drop] = useDrop(() => ({
         accept: 'dToon',
@@ -66,10 +83,16 @@ const EditDecksPage = () => {
 
 
             <div className='deckView' ref={drop}>
-                {deckCards.map((card) => (
-                    <div key={card.id}>
-                        <img className='toonImage' src={card.image} alt='toon image' />
-                        <button onClick={() => deleteCardFromDeck(card.id, deckId)}>-</button>
+                {deckCards.map((dToon) => (
+                    <div key={dToon.id}>
+                        <ExpandableCard
+                            // key={dToon.id}
+                            dToon={dToon}
+                            toggleCardOpenState={toggleCardOpenState}
+                            openStates={openStates}
+                        />
+                        {/* <img className='toonImage' src={dToon.image} alt='toon image' /> */}
+                        <button onClick={() => deleteCardFromDeck(dToon.id, deckId)}>-</button>
                     </div>
                 ))}
             </div>
@@ -77,9 +100,13 @@ const EditDecksPage = () => {
             <p>userCollection</p>
             <div className='collectionView'>
                 {/* {JSON.stringify(userCollection)} */}
-                {userCollection.map((card) => (
-                    <div key={card.id}>
-                        <DragnDrop dToon={card} />
+                {userCollection.map((dToon) => (
+                    <div key={dToon.id}>
+                        <DragnDrop
+                            dToon={dToon}
+                            toggleCardOpenState={toggleCardOpenState}
+                            openStates={openStates}
+                        />
                     </div>
                 ))}
             </div>

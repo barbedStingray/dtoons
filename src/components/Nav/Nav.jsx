@@ -39,7 +39,7 @@ const Nav = () => {
 {/* Admin Users */}
             {user.admin ?
                 <>
-                    <Link to='/newdToon'><h3>New dToon</h3></Link>
+                    <Link to='/createdToon'><h3>New dToon</h3></Link>
                 </>
                 :
                 <></>

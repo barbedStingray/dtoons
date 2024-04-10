@@ -3,7 +3,6 @@ import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import dToonStoreSaga from './dToonStore.saga';
-import cardDetailsSaga from './cardDetails.saga';
 import createdToonSaga from './createToon.saga';
 import buydToonPackSaga from './buydToonPack.saga';
 import userCollectionSaga from './userCollection.saga';
@@ -26,7 +25,6 @@ export default function* rootSaga() {
     userSaga(),
     
     dToonStoreSaga(), // fetch store images
-    cardDetailsSaga(), // fetch singular card details
     createdToonSaga(), // create new dToon path
     buydToonPackSaga(), // purchase dToon pack
     userCollectionSaga(), // displays the users collection
