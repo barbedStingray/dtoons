@@ -11,7 +11,7 @@ const MydToons = () => {
   const dispatch = useDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
-  const [theCard, setTheCard] = useState(1);
+  const [openStates, setOpenStates] = useState([]);
 
 
   useEffect(() => {
@@ -24,7 +24,15 @@ const MydToons = () => {
     dispatch({ type: `FETCH_USER_COLLECTION`, payload: user.id });
   }
 
-
+const toggleCardOpenState = (index) => {
+  // console.log('toggling card index');
+  setOpenStates((prevStates) => {
+    console.log('openStates', openStates);
+    const newStates = [...prevStates];
+    newStates[index] = !newStates[index];
+    return newStates;
+  });
+}
 
 
 
@@ -40,8 +48,9 @@ const MydToons = () => {
         
         {userCollection.map((card) => (
           <m.div
+            key={card.id}
             className='card'
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => toggleCardOpenState(card.id)}
             layout
             transition={{ layout: { duration: 1, type: 'spring' } }}
           >
@@ -49,15 +58,16 @@ const MydToons = () => {
               <img className='toonImage' src={card.image} alt='toon image' />
             </m.div>
 
-            {isOpen && (
+            {openStates[card.id] && (
               <m.div
                 className='expand'
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
               >
-                <p>THIS IS ALL THE DTOON DATA</p>
-                <p>This is some more dToon information</p>
+                <p>Title: {card.cardtitle}</p>
+                <p>Character: {card.character}</p>
+                <p>Color: {card.color}</p>
               </m.div>
             )}
 
