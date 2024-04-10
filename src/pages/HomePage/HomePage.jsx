@@ -16,6 +16,11 @@ const HomePage = () => {
 
       <h1>WELCOME: {user.username}</h1>
 
+      <p>Rules Link</p>
+      <p>Game Link</p>
+      <p>Game Link</p>
+
+
       
     </div>
   )

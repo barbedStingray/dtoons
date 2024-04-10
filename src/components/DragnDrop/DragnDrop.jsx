@@ -3,7 +3,7 @@ import { useDrag } from 'react-dnd';
 import ExpandableCard from '../ExpandableCard/ExpandableCard';
 
 
-const DragnDrop = ({ dToon, toggleCardOpenState, openStates }) => {
+const DragnDrop = ({ dToon }) => {
 
     // console.log('image', dToon.image );
     // console.log('id', dToon.id );
@@ -23,8 +23,8 @@ const DragnDrop = ({ dToon, toggleCardOpenState, openStates }) => {
         <ExpandableCard
             drag={drag}
             dToon={dToon}
-            toggleCardOpenState={toggleCardOpenState}
-            openStates={openStates}
+            // toggleCardOpenState={toggleCardOpenState}
+            // openStates={openStates}
         />
     )
 }

@@ -11,7 +11,6 @@ const MydToons = () => {
 
   const dispatch = useDispatch();
 
-  const [openStates, setOpenStates] = useState([]);
 
 
   useEffect(() => {
@@ -24,15 +23,22 @@ const MydToons = () => {
     dispatch({ type: `FETCH_USER_COLLECTION`, payload: user.id });
   }
 
-const toggleCardOpenState = (index) => {
-  // console.log('toggling card index');
-  setOpenStates((prevStates) => {
-    // console.log('openStates', openStates);
-    const newStates = [...prevStates];
-    newStates[index] = !newStates[index];
-    return newStates;
-  });
-}
+
+  // const [openStates, setOpenStates] = useState([]);
+
+  // const toggleCardOpenState = (index) => {
+  //   // console.log('toggling card index');
+  //   setOpenStates((prevStates) => {
+  //     console.log('openStates', openStates);
+  //     const newStates = [...prevStates];
+  //     newStates[index] = !newStates[index];
+  //     return newStates;
+  //   });
+  // }
+
+  const handleCharacterSearch = (character) => {
+    console.log('getting characters', character);
+  }
 
 
 
@@ -42,16 +48,25 @@ const toggleCardOpenState = (index) => {
     <div>
       <h1>dToon Collection</h1>
 
+      <input
+        type='text'
+        placeholder='Character'
+        onChange={(e) => handleCharacterSearch(e.target.value)}
+      />
+
+
       <div className='cardCollection'>
-        {/* {JSON.stringify(userCollection)} */}
-        {userCollection.map((dToon) => (
-          <ExpandableCard 
-            key={dToon.id}
-            dToon={dToon} 
-            toggleCardOpenState={toggleCardOpenState}
-            openStates={openStates}
-          />
-        ))}
+        <div className='rowContainer'>
+          {/* {JSON.stringify(userCollection)} */}
+          {userCollection.map((dToon) => (
+            <ExpandableCard
+              key={dToon.id}
+              dToon={dToon}
+              // toggleCardOpenState={toggleCardOpenState}
+              // openStates={openStates}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

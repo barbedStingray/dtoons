@@ -51,17 +51,17 @@ const EditDecksPage = () => {
 
 
 
-    const [openStates, setOpenStates] = useState([]);
+    // const [openStates, setOpenStates] = useState([]);
 
-    const toggleCardOpenState = (index) => {
-        // console.log('toggling card index');
-        setOpenStates((prevStates) => {
-            // console.log('openStates', openStates);
-            const newStates = [...prevStates];
-            newStates[index] = !newStates[index];
-            return newStates;
-        });
-    }
+    // const toggleCardOpenState = (index) => {
+    //     // console.log('toggling card index');
+    //     setOpenStates((prevStates) => {
+    //         // console.log('openStates', openStates);
+    //         const newStates = [...prevStates];
+    //         newStates[index] = !newStates[index];
+    //         return newStates;
+    //     });
+    // }
 
 
 
@@ -88,8 +88,8 @@ const EditDecksPage = () => {
                         <ExpandableCard
                             // key={dToon.id}
                             dToon={dToon}
-                            toggleCardOpenState={toggleCardOpenState}
-                            openStates={openStates}
+                            // toggleCardOpenState={toggleCardOpenState}
+                            // openStates={openStates}
                         />
                         {/* <img className='toonImage' src={dToon.image} alt='toon image' /> */}
                         <button onClick={() => deleteCardFromDeck(dToon.id, deckId)}>-</button>
@@ -104,8 +104,8 @@ const EditDecksPage = () => {
                     <div key={dToon.id}>
                         <DragnDrop
                             dToon={dToon}
-                            toggleCardOpenState={toggleCardOpenState}
-                            openStates={openStates}
+                            // toggleCardOpenState={toggleCardOpenState}
+                            // openStates={openStates}
                         />
                     </div>
                 ))}

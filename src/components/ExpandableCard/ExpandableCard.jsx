@@ -1,18 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion as m } from 'framer-motion';
 
 
 
 
-const ExpandableCard = ({ dToon, drag, toggleCardOpenState, openStates }) => {
+const ExpandableCard = ({ dToon, drag }) => {
 
-
+    const [openState, setOpenState] = useState(false);
 
     return (
         <m.div
             key={dToon.id}
             className='card'
-            onClick={() => toggleCardOpenState(dToon.id)}
+            onClick={() => setOpenState(!openState)}
             layout
             // transition={{ layout: { type: 'spring' } }}
             transition={{ layout: { duration: 0.75, type: 'spring' } }}
@@ -21,7 +21,7 @@ const ExpandableCard = ({ dToon, drag, toggleCardOpenState, openStates }) => {
                 <img ref={drag} className='toonImage' src={dToon.image} alt='toon image' />
             </m.div>
 
-            {openStates[dToon.id] && (
+            {openState && (
                 <m.div
                     className='expand'
                     initial={{ opacity: 0 }}
