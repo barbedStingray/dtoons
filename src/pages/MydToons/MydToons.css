@@ -1,0 +1,56 @@
+.mydToons {
+    border: 3px solid blue;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.mydToon-collection {
+    border: 2px solid red;
+    height: 75vh;
+    width: 90vw;
+
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+.mydToon-rowAdjust {
+    border: 2px solid limegreen;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+
+}
+
+
+
+/* .cardCollection {
+    border: 2px solid blue;
+    width: 80vw;
+    height: 70vh;
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow-y: scroll;  
+  }
+  
+  .rowContainer {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  .expand {
+    border: 2px solid red;
+  
+  } */
+  
+  

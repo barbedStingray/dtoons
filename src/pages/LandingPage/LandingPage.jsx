@@ -1,9 +1,7 @@
-
-// IMPORTS
-// middleware
 import React, { useState, useEffect } from 'react';
 // import { motion as m } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import './LandingPage.css';
 
 // // css
 // import './LandingPage.css';

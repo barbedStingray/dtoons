@@ -11,7 +11,7 @@ const ExpandableCard = ({ dToon, drag }) => {
     return (
         <m.div
             key={dToon.id}
-            className='card'
+            className='dToonCard'
             onClick={() => setOpenState(!openState)}
             layout
             // transition={{ layout: { type: 'spring' } }}
@@ -19,18 +19,19 @@ const ExpandableCard = ({ dToon, drag }) => {
         >
             <m.div layout='position'>
                 <img ref={drag} className='toonImage' src={dToon.image} alt='toon image' />
+                <m.p>Ability: {dToon.desc0}</m.p>
             </m.div>
 
             {openState && (
                 <m.div
-                    className='expand'
+                    className='dToonExpand'
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1 }}
                 >
                     <p>Title: {dToon.cardtitle}</p>
                     <p>Character: {dToon.character}</p>
-                    <p>Ability: {dToon.desc0}</p>
+                    <m.p>Ability: {dToon.desc0}</m.p>
                     <p>Ability: {dToon.desc1}</p>
                     <p>Ability: {dToon.cardtype}</p>
                     <p>Ability: {dToon.cardkind}</p>

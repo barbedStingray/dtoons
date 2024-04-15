@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
-
+import './MydToons.css';
 
 const MydToons = () => {
 
@@ -45,7 +45,7 @@ const MydToons = () => {
 
 
   return (
-    <div>
+    <div className='mydToons'>
       <h1>dToon Collection</h1>
 
       <input
@@ -55,8 +55,8 @@ const MydToons = () => {
       />
 
 
-      <div className='cardCollection'>
-        <div className='rowContainer'>
+      <div className='mydToon-collection'>
+        <div className='mydToon-rowAdjust'>
           {/* {JSON.stringify(userCollection)} */}
           {userCollection.map((dToon) => (
             <ExpandableCard
