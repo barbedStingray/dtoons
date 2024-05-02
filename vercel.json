@@ -24,7 +24,7 @@
         "dest": "build/static/$1"
       },
       {
-        "src": "/.*",
+        "src": "/(.*)",
         "dest": "build/index.html"
       }
     ]
