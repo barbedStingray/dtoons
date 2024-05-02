@@ -1,46 +1,61 @@
 import React, { useState } from 'react';
-import { motion as m } from 'framer-motion';
+import { AnimatePresence, motion as m } from 'framer-motion';
 
 
 
 
 const ExpandableCard = ({ dToon, drag }) => {
 
-    const [openState, setOpenState] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+    console.log('selectedId', selectedId);
+
 
     return (
-        <m.div
+        <div
             key={dToon.id}
             className='dToonCard'
-            onClick={() => setOpenState(!openState)}
-            layout
-            // transition={{ layout: { type: 'spring' } }}
-            transition={{ layout: { duration: 0.75, type: 'spring' } }}
         >
-            <m.div layout='position'>
-                <img ref={drag} className='toonImage' src={dToon.image} alt='toon image' />
-                <m.p>Ability: {dToon.desc0}</m.p>
-            </m.div>
 
-            {openState && (
+            <div className='dToonStoreDisplay'>
                 <m.div
-                    className='dToonExpand'
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
+                    layoutId={dToon.id}
+                    // layoutId={`${selectedId}-modal`}
+                    onClick={() => setSelectedId(dToon.id)}
                 >
-                    <p>Title: {dToon.cardtitle}</p>
-                    <p>Character: {dToon.character}</p>
-                    <m.p>Ability: {dToon.desc0}</m.p>
-                    <p>Ability: {dToon.desc1}</p>
-                    <p>Ability: {dToon.cardtype}</p>
-                    <p>Ability: {dToon.cardkind}</p>
-                    <p>Ability: {dToon.rarity}</p>
-                    <p>Ability: {dToon.movie}</p>
+                    <m.p>{dToon.cardtitle}</m.p>
+                    <m.img className='toonImageTest' ref={drag} src={dToon.image} alt='toon image here' />
                 </m.div>
-            )}
+            </div>
 
-        </m.div>
+            <AnimatePresence>
+                {selectedId && (
+                    <m.div
+                        className='dToonModal'
+                        layoutId={selectedId}
+                        key='dToonModaltoon'
+                        transition={{ layout: { duration: 0.75, type: 'spring' } }}
+                    >
+                        <m.p>{dToon.cardtitle}</m.p>
+                        <m.img className='toonImageTest' src={dToon.image} alt='toon image here' />
+
+                        {/* <m.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                    >
+                        <p>Character: {dToon.character}</p>
+                        <m.p>{dToon.movie}</m.p>
+                        <m.p>{dToon.desc0}</m.p>
+                        <m.p>{dToon.desc1}</m.p>
+                    </m.div> */}
+
+                        <m.button onClick={() => setSelectedId(null)}>BACK</m.button>
+                    </m.div>
+                )}
+            </AnimatePresence>
+
+
+        </div>
     )
 }
 
