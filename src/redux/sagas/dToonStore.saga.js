@@ -10,10 +10,8 @@ function* fetchDtoonsStore(action) {
         // GET request for dToon Store
         const dToons = yield axios.get(`/api/dToons/store`);
 
-
         // dispatch action to set reducer
         yield put({ type: 'SET_DTOONS_STORE', payload: dToons.data });
-
 
     } catch (error) {
       console.log(`error in GET dToon List`);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag } from 'react-dnd';
-import ExpandableCard from '../ExpandableCard/ExpandableCard';
+// import ExpandableCard from '../ExpandableCard/ExpandableCard';
 
 
 const DragnDrop = ({ dToon }) => {
@@ -20,12 +20,30 @@ const DragnDrop = ({ dToon }) => {
 
     return (
 
-        <ExpandableCard
-            drag={drag}
-            dToon={dToon}
-            // toggleCardOpenState={toggleCardOpenState}
-            // openStates={openStates}
-        />
+        <div
+            key={dToon.id}
+            className='dToonCard'
+        >
+
+            <div className='dToonStoreDisplay'>
+                <div
+                    layoutId={dToon.id}
+                >
+                    <p>{dToon.cardtitle}</p>
+                    <img className='toonImageTest' ref={drag} src={dToon.image} alt='toon image here' />
+                </div>
+            </div>
+
+
+        </div>
+
+
+        // <ExpandableCard
+        //     drag={drag}
+        //     dToon={dToon}
+        //     // toggleCardOpenState={toggleCardOpenState}
+        //     // openStates={openStates}
+        // />
     )
 }
 

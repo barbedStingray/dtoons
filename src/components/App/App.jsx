@@ -1,9 +1,5 @@
 import React, { useEffect } from 'react';
-import {
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AnimatePresence } from 'framer-motion';
 
@@ -56,10 +52,8 @@ function App() {
 
       <Nav />
 
-      <AnimatePresence
-        mode='wait'
-      // initial={false}
-      >
+      <AnimatePresence mode='wait'>
+        
         <Routes location={location} key={location.pathname}>
 
           {/* OPEN ROUTES */}
