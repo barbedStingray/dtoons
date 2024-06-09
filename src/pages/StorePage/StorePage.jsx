@@ -4,28 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
 
 import './StorePage.css';
+import useStoreDtoons from '../../components/Scripts/useStoreDtoons';
+
 
 
 
 const StorePage = () => {
 
-  const dToons = useSelector((store) => store.dToonsStore);
   const user = useSelector((store) => store.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [storeDtoons, statusDtoons] = useStoreDtoons();
+  console.log('store dtoons CUSTOM HOOK', storeDtoons, statusDtoons);
 
-  useEffect(() => {
-    fetchDtoonsStore();
-  }, []);
-
-  function fetchDtoonsStore() {
-    console.log(`fetching dToon store`);
-    dispatch({ type: 'FETCH_DTOONS_STORE' }); // no payload
-  }
-
-  // view dToon details on separate page
 
   // purchase dToon pack
   function buydToonPack() {
@@ -48,7 +41,7 @@ const StorePage = () => {
       </div>
 
       <div>
-        {dToons.map((dToon) => (
+        {storeDtoons.map((dToon) => (
           <ExpandableCard
             key={dToon.id}
             dToon={dToon}

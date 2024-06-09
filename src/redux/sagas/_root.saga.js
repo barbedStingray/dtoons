@@ -2,10 +2,8 @@ import { all, takeLatest, takeEvery, put } from 'redux-saga/effects';
 import loginSaga from './login.saga';
 import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
-import dToonStoreSaga from './dToonStore.saga';
 import createdToonSaga from './createToon.saga';
 import buydToonPackSaga from './buydToonPack.saga';
-import userCollectionSaga from './userCollection.saga';
 import createNewDeckSaga from './newDeck.saga';
 import fetchUserDecksSaga from './userDecks.saga';
 import fetchCardsForDeckSaga from './cardsForDeck.saga';
@@ -24,10 +22,8 @@ export default function* rootSaga() {
     registrationSaga(),
     userSaga(),
     
-    dToonStoreSaga(), // fetch store images
     createdToonSaga(), // create new dToon path
     buydToonPackSaga(), // purchase dToon pack
-    userCollectionSaga(), // displays the users collection
     createNewDeckSaga(), // creates a new deck
     fetchUserDecksSaga(), // generates user decks
     fetchCardsForDeckSaga(), // fetches the cards in a single deck

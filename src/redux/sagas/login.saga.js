@@ -18,7 +18,7 @@ function* loginUser(action) {
     const result = yield axios.post('/api/user/login', action.payload, config);
 
     if (result) {
-      console.log('RES', result)
+      console.log('RES', result);
 
     }
 

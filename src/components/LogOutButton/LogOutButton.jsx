@@ -11,8 +11,6 @@ function LogOutButton(props) {
     navigate('/');
     console.log(`sent to home`);
   }
-
-
   return (
     <button
       // This button shows up in multiple locations and is styled differently

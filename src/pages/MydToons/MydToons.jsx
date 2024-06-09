@@ -4,24 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
 import './MydToons.css';
 
+import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
+
+
+
 const MydToons = () => {
 
   const user = useSelector((store) => store.user);
-  const userCollection = useSelector((store) => store.userCollection);
+  // const userCollection = useSelector((store) => store.userCollection);
 
-  const dispatch = useDispatch();
-
-
-
-  useEffect(() => {
-    fetchUserdToons();
-  }, []);
+  // const dispatch = useDispatch();
 
 
-  function fetchUserdToons() {
-    console.log('fetching users dToons');
-    dispatch({ type: `FETCH_USER_COLLECTION`, payload: user.id });
-  }
+  // * custom hook to set user collection
+  const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
+  // console.log('CUSTOM HOOK:', userDtoons, dToonStatus);
 
 
   // const [openStates, setOpenStates] = useState([]);
@@ -42,8 +39,6 @@ const MydToons = () => {
 
 
 
-
-
   return (
     <div className='mydToons'>
       <h1>dToon Collection</h1>
@@ -58,7 +53,7 @@ const MydToons = () => {
       <div className='mydToon-collection'>
         <div className='mydToon-rowAdjust'>
           {/* {JSON.stringify(userCollection)} */}
-          {userCollection.map((dToon) => (
+          {userDtoons.map((dToon) => (
             <ExpandableCard
               key={dToon.id}
               dToon={dToon}
