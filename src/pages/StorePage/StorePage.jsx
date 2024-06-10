@@ -42,10 +42,7 @@ const StorePage = () => {
 
       <div>
         {storeDtoons.map((dToon) => (
-          <ExpandableCard
-            key={dToon.id}
-            dToon={dToon}
-          />
+          <ExpandableCard key={dToon.id} dToon={dToon} />
         ))}
       </div>
 

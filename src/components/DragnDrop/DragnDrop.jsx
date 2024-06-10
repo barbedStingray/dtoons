@@ -17,9 +17,7 @@ const DragnDrop = ({ dToon }) => {
     }));
 
 
-
     return (
-
         <div
             key={dToon.id}
             className='dToonCard'

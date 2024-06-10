@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import DragnDrop from '../../components/DragnDrop/DragnDrop';
 import { useDrop } from 'react-dnd';
 
@@ -16,8 +16,6 @@ const EditDecksPage = () => {
     const user = useSelector((store) => store.user);
     // console.log('deckCards', deckCards);
 
-    const dispatch = useDispatch();
-
     const { deckId } = useParams();
     // console.log('deck id', deckId);
 
@@ -26,26 +24,6 @@ const EditDecksPage = () => {
     const [deckOfCarrds, deckStatus, addCard, removeCard] = useDeckCards(deckId);
 
 
-    // // set card collection reducer
-    // useEffect(() => {
-    //     // fetchUserdToons();
-    //     // fetchCardsForDeck();
-    // }, []);
-
-    // function fetchUserdToons() {
-    //     console.log('fetching users dToons');
-    //     dispatch({ type: `FETCH_USER_COLLECTION`, payload: user.id });
-    // }
-
-    // function fetchCardsForDeck() {
-    //     console.log('fetching deckId:', deckId);
-    //     dispatch({ type: 'FETCH_CARDS_FOR_DECK', payload: deckId });
-    // }
-
-    // function deleteCardFromDeck(cardId) {
-    //     console.log('deleting card from deck');
-    //     dispatch({ type: 'DELETE_CARD_FROM_DECK', payload: { cardId, deckId } });
-    // }
     // drop functionality
     // const addCardToDeck = (dToon) => {
     //     console.log('adding toon id', dToon.id);
@@ -105,11 +83,7 @@ const EditDecksPage = () => {
                 {/* {JSON.stringify(userCollection)} */}
                 {userDtoons.map((dToon) => (
                     <div key={dToon.id}>
-                        <DragnDrop
-                            dToon={dToon}
-                        // toggleCardOpenState={toggleCardOpenState}
-                        // openStates={openStates}
-                        />
+                        <DragnDrop dToon={dToon} />
                     </div>
                 ))}
             </div>

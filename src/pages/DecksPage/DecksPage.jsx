@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import useFetchUserDecks from '../../components/Scripts/useFetchUserDecks';
+
 
 const DecksPage = () => {
 
   const user = useSelector((store) => store.user);
-  const userDecks = useSelector((store) => store.userDecks);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -15,24 +16,13 @@ const DecksPage = () => {
 // also returns your star power of each deck? 
 const [deckName, setDeckName] = useState('');
 
+const [userDecks, userDecksStatus] = useFetchUserDecks(user.id);
+
 
 function createNewDeck(deck) {
   console.log(`creating new deck`, user.id, deck);
   dispatch({ type: 'CREATE_NEW_DECK', payload: user.id, deck });
   setDeckName('');
-}
-
-useEffect(() => {
-  fetchUserDecks();
-}, []);
-
-function fetchUserDecks() {
-  dispatch({ type: 'FETCH_USER_DECKS', payload: user.id });
-}
-
-function viewEditDeck(deckID) {
-  console.log('view/edit deck id', deckID);
-  navigate(`/editDeck/${deckID}`);
 }
 
 
@@ -58,7 +48,7 @@ function viewEditDeck(deckID) {
         {userDecks.map((deck) => (
           <div key={deck.id}>
             <p>{deck.deckname}</p>
-            <button onClick={() => viewEditDeck(deck.id)}>Edit</button>
+            <button onClick={() => navigate(`/editDeck/${deck.id}`)}>Edit</button>
           </div>
         ))}
 
@@ -66,4 +56,4 @@ function viewEditDeck(deckID) {
   )
 }
 
-export default DecksPage
+export default DecksPage;
