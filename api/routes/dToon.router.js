@@ -150,7 +150,7 @@ router.post('/purchase', async (req, res) => {
 
         // res.sendStatus(201);
         // send your toons back to the buydToonPack.saga
-        res.status(201).send([ toonOne, toonTwo ]);
+        res.status(201).send([toonOne, toonTwo]);
 
     } catch (error) {
         console.log('Error in /purchase dToons');
@@ -268,7 +268,7 @@ router.post('/newToon', (req, res) => {
         req.body.role,
         req.body.rarity,
         req.body.movie
-        
+
     ]).then((result) => {
         console.log(`success in POST new dToon`);
         res.sendStatus(201);
@@ -278,4 +278,73 @@ router.post('/newToon', (req, res) => {
     });
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/search/existing', (req, res) => {
+    console.log('searching dToons');
+
+    const { colors, letters, points, rarity } = req.query;
+    console.log('colors', colors);
+    console.log('letter', letters);
+    console.log('points', points);
+    console.log('rarity', rarity);
+
+    let queryText = 'SELECT * FROM "dtoons"';
+    let  queryValues = [];
+    const conditions = [];
+
+
+    // PARAMETERS - Query Text Building
+    if (colors) {
+        conditions.push('"color" = ANY($' + (queryValues.length + 1) + ')');
+        queryValues.push(colors);
+    }
+    if (letters) {
+        conditions.push('"character" ILIKE $' + (queryValues.length + 1));
+        queryValues.push(`${letters}%`);
+    }
+    if (points) {
+        conditions.push('"points" = $' + (queryValues.length + 1));
+        queryValues.push(points);
+    }
+    if (rarity) {
+        conditions.push('"rarity" = $' + (queryValues.length + 1));
+        queryValues.push(rarity);
+    }
+
+    // text final touches
+    if (conditions.length > 0 ) {
+        queryText += ' WHERE ' + conditions.join(' AND ');
+    }
+    console.log('queryText', queryText);
+    console.log('queryValues', queryValues);
+
+// POOL QUERY
+    pool.query(queryText, queryValues)
+        .then((result) => {
+            console.log('/api/dToons/search query success!');
+            res.status(200).send(result.rows);
+        })
+        .catch((error) => {
+            console.error('/api/dToons/search error query', error);
+            res.sendStatus(500);
+        });
+
+});
+
+
+
+
 module.exports = router;
+

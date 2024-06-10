@@ -1,7 +1,7 @@
 .mydToons {
     border: 3px solid blue;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 
 }
 
@@ -27,30 +27,9 @@
 }
 
 
-
-/* .cardCollection {
-    border: 2px solid blue;
-    width: 80vw;
-    height: 70vh;
-  
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    overflow-y: scroll;  
-  }
-  
-  .rowContainer {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-  }
-  .expand {
-    border: 2px solid red;
-  
-  } */
-  
-  
+.searchBar {
+  border: 2px solid black;
+  display: flex;
+  flex-flow: column nowrap;
+  overflow: scroll;
+}
