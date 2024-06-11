@@ -345,12 +345,13 @@ WHERE "dtoonuser"."id" = $1`;
         conditions.push('"character" ILIKE $' + (queryValues.length + 1));
         queryValues.push(`${letters}%`);
     }
+    // if (points && points.length > 0) { // Adjusted for multiple points
     if (points) {
-        conditions.push('"points" = $' + (queryValues.length + 1));
+        conditions.push('"points" = ANY($' + (queryValues.length + 1) + ')');
         queryValues.push(points);
     }
     if (rarity) {
-        conditions.push('"rarity" = $' + (queryValues.length + 1));
+        conditions.push('"rarity" = ANY($' + (queryValues.length + 1) + ')');
         queryValues.push(rarity);
     }
 
@@ -375,21 +376,18 @@ WHERE "dtoonuser"."id" = $1`;
 
 
 
-    
+
 
     try {
         // main query to fetch data for current page
         const mainQueryResult = await pool.query(queryText + ` LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`, [...queryValues, limit, offset]);
         // query count for total number of items
         const countQueryResult = await pool.query(countQueryText, queryValues);
-
         // extract data
         const mainData = mainQueryResult.rows;
         const totalCount = countQueryResult.rows[0].total_count;
-
         // calculate total pages
         const totalPages = Math.ceil(totalCount / limit);
-
         // send your response package
         console.log('RESULTS PAGES', totalCount, totalPages);
         res.status(200).json({ results: mainData, totalCount, totalPages });

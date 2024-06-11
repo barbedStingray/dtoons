@@ -30,8 +30,8 @@ const MydToons = () => {
   // Filter states
   const [searchCharacter, setSearchCharacter] = useState('');
   const [selectedColors, setSelectedColors] = useState([]);
-  const [searchPoints, setSearchPoints] = useState();
-  const [searchRarity, setSearchRarity] = useState('');
+  const [searchPoints, setSearchPoints] = useState([]);
+  const [searchRarity, setSearchRarity] = useState([]);
 
   // const [searchResults, setSearchResults] = useFetchSearchResults(user.id, [], null, null, null); // returned data from db
   // const [searchCharacter, setSearchCharacter] = useState('');
@@ -70,7 +70,6 @@ const MydToons = () => {
   useEffect(() => {
     searchCollection(user.id, currentPage);
   }, [currentPage, selectedColors, searchCharacter, searchPoints, searchRarity]);
-  // this will accept when multiple states change such as colors
 
 
 
@@ -78,7 +77,6 @@ const MydToons = () => {
 
   // checks if "next" button should be disabled
   const isNextDisabled = currentPage >= totalPages;
-
   // handle page change
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
