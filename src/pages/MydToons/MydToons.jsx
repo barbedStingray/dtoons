@@ -19,51 +19,73 @@ const MydToons = () => {
 
 
   // * custom hook to set user collection
-  const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
+  // const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
   // console.log('CUSTOM HOOK:', userDtoons, dToonStatus);
 
   // Search Params
   const [searchResults, setSearchResults] = useState([]); // returned data from db
-  // const [searchResults, setSearchResults] = useFetchSearchResults(user.id, [], null, null, null); // returned data from db
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const itemsPerPage = 10;
+  // Filter states
   const [searchCharacter, setSearchCharacter] = useState('');
+  const [selectedColors, setSelectedColors] = useState([]);
+  const [searchPoints, setSearchPoints] = useState();
+  const [searchRarity, setSearchRarity] = useState('');
+
+  // const [searchResults, setSearchResults] = useFetchSearchResults(user.id, [], null, null, null); // returned data from db
+  // const [searchCharacter, setSearchCharacter] = useState('');
   console.log('searchResults', searchResults);
 
 
 
 
-  async function searchCollection(userId, colors, letters, points, rarity) {
+  async function searchCollection(userId, page = 1) {
     console.log('searching user collection');
 
     try {
-      const dbResults = await axios.get(`/api/dToons/search/existing`,
-        { params: { userId, colors, letters, points, rarity } }
-      );
-      setSearchResults(dbResults.data);
+      const dbResults = await axios.get(`/api/dToons/search/existing`, {
+        params: {
+          userId,
+          colors: selectedColors,
+          letters: searchCharacter,
+          points: searchPoints,
+          rarity: searchRarity,
+          page,
+          limit: itemsPerPage
+        }
+      });
+
+      console.log('RESSULTS', dbResults.data);
+      const { results, totalCount, totalPages } = dbResults.data;
+      setSearchResults(results);
+      setTotalPages(totalPages); // Set total pages based on backend
+      // setTotalCount(totalCount);
 
     } catch (error) {
       console.log('error searching the collection', error);
     }
   }
+
   useEffect(() => {
-    searchCollection(user.id, [], '', null, '');
-  }, []);
+    searchCollection(user.id, currentPage);
+  }, [currentPage, selectedColors, searchCharacter, searchPoints, searchRarity]);
   // this will accept when multiple states change such as colors
 
 
-  // const [openStates, setOpenStates] = useState([]);
 
-  // const toggleCardOpenState = (index) => {
-  //   // console.log('toggling card index');
-  //   setOpenStates((prevStates) => {
-  //     console.log('openStates', openStates);
-  //     const newStates = [...prevStates];
-  //     newStates[index] = !newStates[index];
-  //     return newStates;
-  //   });
-  // }
 
-  const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
 
+  // checks if "next" button should be disabled
+  const isNextDisabled = currentPage >= totalPages;
+
+  // handle page change
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
+
+
+  // const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
 
   return (
     <div className='mydToons'>
@@ -73,10 +95,17 @@ const MydToons = () => {
 
         <input type='text' placeholder='character' />
 
-        <div>
+        {/* <div>
           {colorSelectOptions.map((color) => (
             <div><p>{color}</p></div>
           ))}
+        </div> */}
+
+
+        <div className='pagination'>
+          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+          <span>Page {currentPage} of {totalPages}</span>
+          <button onClick={() => handlePageChange(currentPage + 1)} disabled={isNextDisabled}>Next</button>
         </div>
 
 
@@ -85,7 +114,7 @@ const MydToons = () => {
       <div className='mydToon-collection'>
         <div className='mydToon-rowAdjust'>
           {/* {JSON.stringify(userCollection)} */}
-          {userDtoons.map((dToon) => (
+          {searchResults.map((dToon) => (
             <ExpandableCard
               key={dToon.id}
               dToon={dToon}
@@ -95,6 +124,7 @@ const MydToons = () => {
           ))}
         </div>
       </div>
+
     </div>
   )
 }

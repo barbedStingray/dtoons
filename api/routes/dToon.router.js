@@ -291,19 +291,24 @@ router.post('/newToon', (req, res) => {
 
 
 
-router.get('/search/existing', (req, res) => {
+router.get('/search/existing', async (req, res) => {
     console.log('searching dToons');
 
-    const { userId, colors, letters, points, rarity } = req.query;
+    const { userId, colors, letters, points, rarity, page = 1, limit = 10 } = req.query; // = defaults if no parameter
+    // const { userId, colors, letters, points, rarity } = req.query;
     console.log('user', userId);
     console.log('colors', colors);
     console.log('letter', letters);
     console.log('points', points);
     console.log('rarity', rarity);
+    console.log('page', page);
+    console.log('limit', limit);
 
     if (!userId) {
         return res.status(400).send('User ID is Required');
     }
+
+    const offset = (page - 1) * limit;
 
     // let queryText = 'SELECT * FROM "dtoons"';
     let queryText = `SELECT 
@@ -349,23 +354,51 @@ WHERE "dtoonuser"."id" = $1`;
         queryValues.push(rarity);
     }
 
-    // text final touches
+
+    // main query additional conditions
     if (conditions.length > 0) {
         queryText += ' AND ' + conditions.join(' AND ');
     }
+
+    // count query to get total items
+    // let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection" WHERE "user_id" = $1`;
+    let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection"
+                            JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+                            WHERE "dcollection"."user_id" = $1`;
+    if (conditions.length > 0) {
+        countQueryText += ' AND ' + conditions.join(' AND ');
+    }
+
     console.log('queryText', queryText);
     console.log('queryValues', queryValues);
+    console.log('countQueryText', countQueryText);
 
-    // POOL QUERY
-    pool.query(queryText, queryValues)
-        .then((result) => {
-            console.log('/api/dToons/search query success!');
-            res.status(200).send(result.rows);
-        })
-        .catch((error) => {
-            console.error('/api/dToons/search error query', error);
-            res.sendStatus(500);
-        });
+
+
+    
+
+    try {
+        // main query to fetch data for current page
+        const mainQueryResult = await pool.query(queryText + ` LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`, [...queryValues, limit, offset]);
+        // query count for total number of items
+        const countQueryResult = await pool.query(countQueryText, queryValues);
+
+        // extract data
+        const mainData = mainQueryResult.rows;
+        const totalCount = countQueryResult.rows[0].total_count;
+
+        // calculate total pages
+        const totalPages = Math.ceil(totalCount / limit);
+
+        // send your response package
+        console.log('RESULTS PAGES', totalCount, totalPages);
+        res.status(200).json({ results: mainData, totalCount, totalPages });
+
+    } catch (error) {
+        console.log('error in searching toons', error);
+        res.sendStatus(500);
+    }
+
 });
 
 
