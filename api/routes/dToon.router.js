@@ -294,14 +294,40 @@ router.post('/newToon', (req, res) => {
 router.get('/search/existing', (req, res) => {
     console.log('searching dToons');
 
-    const { colors, letters, points, rarity } = req.query;
+    const { userId, colors, letters, points, rarity } = req.query;
+    console.log('user', userId);
     console.log('colors', colors);
     console.log('letter', letters);
     console.log('points', points);
     console.log('rarity', rarity);
 
-    let queryText = 'SELECT * FROM "dtoons"';
-    let  queryValues = [];
+    if (!userId) {
+        return res.status(400).send('User ID is Required');
+    }
+
+    // let queryText = 'SELECT * FROM "dtoons"';
+    let queryText = `SELECT 
+		"dcollection"."id",
+		"dtoons"."cardtitle",
+		"dtoons"."character",
+		"dtoons"."image",
+		"dtoons"."color",
+		"dtoons"."points",
+		"dtoons"."desc0",
+		"dtoons"."desc1",
+		"dtoons"."cardtype",
+		"dtoons"."cardkind",
+		"dtoons"."group",
+		"dtoons"."gender",
+		"dtoons"."role",
+		"dtoons"."rarity",
+		"dtoons"."movie"
+FROM "dcollection"
+JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+JOIN "dtoonuser" ON "dtoonuser"."id" = "dcollection"."user_id"
+WHERE "dtoonuser"."id" = $1`;
+
+    let queryValues = [userId];
     const conditions = [];
 
 
@@ -324,13 +350,13 @@ router.get('/search/existing', (req, res) => {
     }
 
     // text final touches
-    if (conditions.length > 0 ) {
-        queryText += ' WHERE ' + conditions.join(' AND ');
+    if (conditions.length > 0) {
+        queryText += ' AND ' + conditions.join(' AND ');
     }
     console.log('queryText', queryText);
     console.log('queryValues', queryValues);
 
-// POOL QUERY
+    // POOL QUERY
     pool.query(queryText, queryValues)
         .then((result) => {
             console.log('/api/dToons/search query success!');
@@ -340,7 +366,6 @@ router.get('/search/existing', (req, res) => {
             console.error('/api/dToons/search error query', error);
             res.sendStatus(500);
         });
-
 });
 
 

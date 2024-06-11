@@ -6,6 +6,7 @@ import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
 import './MydToons.css';
 
 import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
+// import useFetchSearchResults from '../../components/Scripts/useFetchSearchResults';
 
 
 
@@ -13,7 +14,7 @@ const MydToons = () => {
 
   const user = useSelector((store) => store.user);
   // const userCollection = useSelector((store) => store.userCollection);
-
+  console.log('USER.id', user.id);
   // const dispatch = useDispatch();
 
 
@@ -21,17 +22,21 @@ const MydToons = () => {
   const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
   // console.log('CUSTOM HOOK:', userDtoons, dToonStatus);
 
+  // Search Params
+  const [searchResults, setSearchResults] = useState([]); // returned data from db
+  // const [searchResults, setSearchResults] = useFetchSearchResults(user.id, [], null, null, null); // returned data from db
+  const [searchCharacter, setSearchCharacter] = useState('');
+  console.log('searchResults', searchResults);
 
 
-  // * Searching params
-  const [searchResults, setSearchResults] = useState([]);
 
-  async function searchCollection(colors, letters, points, rarity) {
+
+  async function searchCollection(userId, colors, letters, points, rarity) {
     console.log('searching user collection');
 
     try {
-      const dbResults = await axios.get(`/api/dToons/search/existing`, 
-        { params: { colors, letters, points, rarity }}
+      const dbResults = await axios.get(`/api/dToons/search/existing`,
+        { params: { userId, colors, letters, points, rarity } }
       );
       setSearchResults(dbResults.data);
 
@@ -40,7 +45,7 @@ const MydToons = () => {
     }
   }
   useEffect(() => {
-    searchCollection([], '', null, 'rare');
+    searchCollection(user.id, [], '', null, '');
   }, []);
   // this will accept when multiple states change such as colors
 
@@ -57,6 +62,8 @@ const MydToons = () => {
   //   });
   // }
 
+  const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
+
 
   return (
     <div className='mydToons'>
@@ -66,16 +73,11 @@ const MydToons = () => {
 
         <input type='text' placeholder='character' />
 
-        <div className='colorSearch'>
-          <input type='radio' id='blue' value='blue'/>
-          <label htmlFor='blue'> Blue</label>
-          <input type='radio' id='red' value='red'/>
-          <label htmlFor='red'> Red</label>
-          <input type='radio' id='green' value='green'/>
-          <label htmlFor='green'> Green</label>
-
+        <div>
+          {colorSelectOptions.map((color) => (
+            <div><p>{color}</p></div>
+          ))}
         </div>
-        {JSON.stringify(searchResults)};
 
 
       </div>
