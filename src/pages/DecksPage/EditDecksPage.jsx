@@ -5,7 +5,7 @@ import DragnDrop from '../../components/DragnDrop/DragnDrop';
 import { useDrop } from 'react-dnd';
 
 import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
-import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
+// import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
 import useDeckCards from '../../components/Scripts/useDeckCards';
 
 
@@ -20,7 +20,7 @@ const EditDecksPage = () => {
     // console.log('deck id', deckId);
 
     // * custom hooks
-    const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
+    // const [userDtoons, dToonStatus] = useCollectDtoons(user.id);
     const [deckOfCarrds, deckStatus, addCard, removeCard] = useDeckCards(deckId);
 
 
@@ -79,14 +79,13 @@ const EditDecksPage = () => {
             </div>
 
             <p>userCollection</p>
-            <div className='collectionView'>
-                {/* {JSON.stringify(userCollection)} */}
+            {/* <div className='collectionView'>
                 {userDtoons.map((dToon) => (
                     <div key={dToon.id}>
                         <DragnDrop dToon={dToon} />
                     </div>
                 ))}
-            </div>
+            </div> */}
 
 
 

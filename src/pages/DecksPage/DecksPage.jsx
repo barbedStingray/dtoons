@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import useFetchUserDecks from '../../components/Scripts/useFetchUserDecks';
+// import useFetchUserDecks from '../../components/Scripts/useFetchUserDecks';
 
 
 const DecksPage = () => {
@@ -15,8 +15,7 @@ const DecksPage = () => {
 // useEffect that returns your Deck names
 // also returns your star power of each deck? 
 const [deckName, setDeckName] = useState('');
-
-const [userDecks, userDecksStatus] = useFetchUserDecks(user.id);
+// const [userDecks, userDecksStatus] = useFetchUserDecks(user.id);
 
 
 function createNewDeck(deck) {
@@ -41,16 +40,16 @@ function createNewDeck(deck) {
         />
         <button onClick={() => createNewDeck(deckName)}>+Deck</button>
         {JSON.stringify(deckName)}
-        {JSON.stringify(userDecks)}
+        {/* {JSON.stringify(userDecks)} */}
 
         
 
-        {userDecks.map((deck) => (
+        {/* {userDecks.map((deck) => (
           <div key={deck.id}>
             <p>{deck.deckname}</p>
             <button onClick={() => navigate(`/editDeck/${deck.id}`)}>Edit</button>
           </div>
-        ))}
+        ))} */}
 
     </div>
   )

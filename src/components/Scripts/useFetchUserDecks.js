@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// This script fetches user decks
+
 const localCache = {};
 
 export default function useFetchUserDecks(user) {

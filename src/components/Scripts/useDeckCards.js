@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+// this script fetches the user cards for a single deck
+
 const localCache = {};
 
 export default function useCollectDtoons(deckId) {
@@ -9,6 +11,13 @@ export default function useCollectDtoons(deckId) {
     // console.log('localCache', localCache);
 
     useEffect(() => {
+        if (!deckId) {
+            setDeckOfCards([]);
+            setDeckStatus('unloaded');
+            return; 
+        } else {
+            requestCardsForDeck(deckId);
+        }
         // if (!user) {
         //     setUserDtoons([]);
         // } else if (localCache[user]) {
@@ -16,7 +25,7 @@ export default function useCollectDtoons(deckId) {
         // } else {
         //     requestUserDtoons(user);
         // }
-        requestCardsForDeck(deckId);
+        // requestCardsForDeck(deckId);
     }, [deckId]);
 
 
