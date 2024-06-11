@@ -327,10 +327,15 @@ router.get('/search/existing', async (req, res) => {
 		"dtoons"."role",
 		"dtoons"."rarity",
 		"dtoons"."movie"
-FROM "dcollection"
-JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
-JOIN "dtoonuser" ON "dtoonuser"."id" = "dcollection"."user_id"
-WHERE "dtoonuser"."id" = $1`;
+            FROM "dcollection"
+            JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+            JOIN "dtoonuser" ON "dtoonuser"."id" = "dcollection"."user_id"
+            WHERE "dtoonuser"."id" = $1`;
+
+    let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection"
+        JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
+        WHERE "dcollection"."user_id" = $1`;
+
 
     let queryValues = [userId];
     const conditions = [];
@@ -355,27 +360,16 @@ WHERE "dtoonuser"."id" = $1`;
         queryValues.push(rarity);
     }
 
-
     // main query additional conditions
     if (conditions.length > 0) {
         queryText += ' AND ' + conditions.join(' AND ');
-    }
-
-    // count query to get total items
-    // let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection" WHERE "user_id" = $1`;
-    let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection"
-                            JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
-                            WHERE "dcollection"."user_id" = $1`;
-    if (conditions.length > 0) {
         countQueryText += ' AND ' + conditions.join(' AND ');
     }
 
+    // final logs for checking
     console.log('queryText', queryText);
     console.log('queryValues', queryValues);
     console.log('countQueryText', countQueryText);
-
-
-
 
 
     try {

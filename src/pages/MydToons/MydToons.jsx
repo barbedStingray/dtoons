@@ -5,7 +5,7 @@ import axios from 'axios';
 import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
 import './MydToons.css';
 
-import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
+// import useCollectDtoons from '../../components/Scripts/useCollectDtoons';
 // import useFetchSearchResults from '../../components/Scripts/useFetchSearchResults';
 
 
@@ -23,23 +23,21 @@ const MydToons = () => {
   // console.log('CUSTOM HOOK:', userDtoons, dToonStatus);
 
   // Search Params
-  const [searchResults, setSearchResults] = useState([]); // returned data from db
+  const [searchResults, setSearchResults] = useState([]); // This can be a custom hook
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const itemsPerPage = 10;
   // Filter states
   const [searchCharacter, setSearchCharacter] = useState('');
   const [selectedColors, setSelectedColors] = useState([]);
-  const [searchPoints, setSearchPoints] = useState([]);
-  const [searchRarity, setSearchRarity] = useState([]);
+  const [selectedPoints, setSelectedPoints] = useState([]);
+  const [selectedRarity, setSelectedRarity] = useState([]);
 
-  // const [searchResults, setSearchResults] = useFetchSearchResults(user.id, [], null, null, null); // returned data from db
-  // const [searchCharacter, setSearchCharacter] = useState('');
-  console.log('searchResults', searchResults);
+  // console.log('searchResults', searchResults);
 
 
 
-
+  // this is fetching from the users collection
   async function searchCollection(userId, page = 1) {
     console.log('searching user collection');
 
@@ -49,8 +47,8 @@ const MydToons = () => {
           userId,
           colors: selectedColors,
           letters: searchCharacter,
-          points: searchPoints,
-          rarity: searchRarity,
+          points: selectedPoints,
+          rarity: selectedRarity,
           page,
           limit: itemsPerPage
         }
@@ -60,8 +58,7 @@ const MydToons = () => {
       const { results, totalCount, totalPages } = dbResults.data;
       setSearchResults(results);
       setTotalPages(totalPages); // Set total pages based on backend
-      // setTotalCount(totalCount);
-
+      // setTotalCount(totalCount); // maybe for later?
     } catch (error) {
       console.log('error searching the collection', error);
     }
@@ -69,21 +66,33 @@ const MydToons = () => {
 
   useEffect(() => {
     searchCollection(user.id, currentPage);
-  }, [currentPage, selectedColors, searchCharacter, searchPoints, searchRarity]);
+  }, [currentPage, selectedColors, searchCharacter, selectedPoints, selectedRarity]);
 
 
 
+  const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
+  const pointSelectOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const raritySelectOptions = ['common', 'rare', 'epic', 'legend', 'mythic']
 
 
-  // checks if "next" button should be disabled
-  const isNextDisabled = currentPage >= totalPages;
-  // handle page change
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
-  };
+
+  function handleSearchValue(value, stateArray, setState) {
+    console.log(`add ${value} to search`);
+    const updatedArray = stateArray.includes(value)
+      ? stateArray.filter((item) => item !== value)
+      : [...stateArray, value];
+    setState(updatedArray);
+    setCurrentPage(1); // sets current page back to one after new search criteria
+  }
+
+  function clearAllFilters() {
+    setSearchCharacter('');
+    setSelectedColors([]);
+    setSelectedPoints([]);
+    setSelectedRarity([]);
+  }
 
 
-  // const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
 
   return (
     <div className='mydToons'>
@@ -91,19 +100,42 @@ const MydToons = () => {
       <div className='searchBar'>
         <h1>dToon Collection</h1>
 
-        <input type='text' placeholder='character' />
+        <input type='text' placeholder='character'
+          value={searchCharacter}
+          onChange={(e) => setSearchCharacter(e.target.value)}
+        />
 
-        {/* <div>
-          {colorSelectOptions.map((color) => (
-            <div><p>{color}</p></div>
-          ))}
-        </div> */}
+        <div className='color-number'>
+          <div>
+            {colorSelectOptions.map((color) => (
+              <div key={color}
+                onClick={() => handleSearchValue(color, selectedColors, setSelectedColors)}
+                className={`color-option ${selectedColors.includes(color) ? `selected ${color}` : ''}`}
+              ><p>{color}</p></div>
+            ))}
+          </div>
+          <div>
+            {pointSelectOptions.map((point) => (
+              <div key={point}
+                onClick={() => handleSearchValue(point, selectedPoints, setSelectedPoints)}
+                className={`color-option ${selectedPoints.includes(point) ? `selected` : ''}`}
+              ><p>{point}</p></div>
+            ))}
+          </div>
+          <div>
+            {raritySelectOptions.map((rare) => (
+              <div key={rare} onClick={() => handleSearchValue(rare, selectedRarity, setSelectedRarity)}><p>{rare}</p></div>
+            ))}
+          </div>
+        </div>
+
+        <button onClick={clearAllFilters}>Clear ALL</button>
 
 
         <div className='pagination'>
-          <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
+          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1}>Previous</button>
           <span>Page {currentPage} of {totalPages}</span>
-          <button onClick={() => handlePageChange(currentPage + 1)} disabled={isNextDisabled}>Next</button>
+          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage >= totalPages}>Next</button>
         </div>
 
 
@@ -111,14 +143,8 @@ const MydToons = () => {
 
       <div className='mydToon-collection'>
         <div className='mydToon-rowAdjust'>
-          {/* {JSON.stringify(userCollection)} */}
           {searchResults.map((dToon) => (
-            <ExpandableCard
-              key={dToon.id}
-              dToon={dToon}
-            // toggleCardOpenState={toggleCardOpenState}
-            // openStates={openStates}
-            />
+            <ExpandableCard key={dToon.id} dToon={dToon} />
           ))}
         </div>
       </div>

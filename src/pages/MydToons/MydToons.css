@@ -28,9 +28,34 @@
 
 
 .searchBar {
-  border: 2px solid black;
-  display: flex;
-  flex-flow: column nowrap;
-  overflow: scroll;
+    border: 2px solid black;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: scroll;
 }
 
+.color-number {
+    display: flex;
+}
+
+.color-option {
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.color-option.selected {
+    background-color: lightgrey;
+    /* You can choose any highlighting style */
+}
+
+/* These can be your custom colors for dToons */
+.red { color: red; }
+.blue { color: blue; }
+.green { color: green; }
+.purple { color: purple; }
+.orange { color: orange; }
+.yellow { color: yellow; }
+.black { color: black; }
+.white { color: white; }
+.silver { color: silver; }
+.pink { color: pink; }
