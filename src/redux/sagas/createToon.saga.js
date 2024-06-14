@@ -8,7 +8,7 @@ function* createNewToon(action) {
         console.log('in CREATE / POST new dToon');
 
         // POST a new dToon
-        yield axios.post(`/api/dToons/newToon`, action.payload);
+        yield axios.post(`/api/admin/newToon`, action.payload);
 
     } catch (error) {
       console.log(`error in POST new dToon`);

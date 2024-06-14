@@ -23,7 +23,7 @@ export default function useCollectDtoons(deckId) {
         setDeckStatus('loading');
 
         try {
-            const deck = await axios.get(`/api/dToons/deck/${deckId}`);
+            const deck = await axios.get(`/api/decks/cards/${deckId}`);
             setDeckOfCards(deck.data);
             // localCache[user] = dToons.data;
             setDeckStatus('loaded');

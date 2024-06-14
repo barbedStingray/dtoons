@@ -18,9 +18,8 @@ export default function useSearchResults(userId, currentPage, searchCharacter, s
         console.log('searching user collection');
     
         try {
-          const dbResults = await axios.get(`/api/dToons/search/existing`, {
+          const dbResults = await axios.get(`/api/collection/search/${userId}`, {
             params: {
-              userId,
               colors: selectedColors,
               letters: searchCharacter,
               points: selectedPoints,

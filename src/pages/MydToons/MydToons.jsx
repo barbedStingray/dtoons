@@ -23,6 +23,8 @@ const MydToons = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, totalPages] = useSearchResults(user.id, currentPage, searchCharacter, selectedColors, selectedPoints, selectedRarity); // custom hook
 
+
+
   // post New Deck
   const [deckName, setDeckName] = useState('');
   const [deckListUpdated, setDeckListUpdated] = useState(false);
@@ -75,6 +77,7 @@ const MydToons = () => {
     setState(updatedArray);
     setCurrentPage(1); // page back to one after new search criteria
   }
+
   function clearAllFilters() {
     setSearchCharacter('');
     setSelectedColors([]);

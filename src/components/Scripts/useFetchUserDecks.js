@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// This script fetches user decks
+// This script fetches user deck names
 
 export default function useFetchUserDecks(user, dependency) {
     const [userDecks, setUserDecks] = useState([]);
@@ -18,7 +18,7 @@ export default function useFetchUserDecks(user, dependency) {
         setUserDecksStatus('loading');
 
         try {
-            const deckList = await axios.get(`/api/dToons/userDecks/${user}`);
+            const deckList = await axios.get(`/api/decks/names/${user}`);
             setUserDecks(deckList.data);
             // localCache[user] = dToons.data;
             setUserDecksStatus('loaded');

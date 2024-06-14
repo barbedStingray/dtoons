@@ -13,6 +13,11 @@ const DeckPreview = ({ deck, setDeckId, setDeckDisplay }) => {
         setDeckDisplay('editDeck');
     }
 
+    // delete entire deck
+    function deleteEntireDeck(deckId) {
+        console.log('deleting entire deck', deckId);
+    }
+
     return (
         <div>
             <p onClick={toggleDeckPreview}>{deckname}</p>
@@ -26,6 +31,7 @@ const DeckPreview = ({ deck, setDeckId, setDeckDisplay }) => {
                 </>
             )}
         <button onClick={toggleEditDeckView}>Edit</button>
+        <button onClick={() => deleteEntireDeck(id)}>Delete Deck</button>
         </div>
     );
 };

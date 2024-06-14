@@ -9,6 +9,10 @@ const passport = require('./strategies/user.strategy');
 // Route includes
 const userRouter = require('./routes/user.router');
 const dToonRouter = require('./routes/dToon.router');
+const collectionRouter = require('./routes/collection.router');
+const adminRouter = require('./routes/admin.router');
+const decksRouter = require('./routes/decks.router');
+const shopRouter = require('./routes/shop.router');
 
 // Express middleware
 app.use(express.json());
@@ -23,6 +27,10 @@ app.use(passport.session());
 /* EXPRESS Routes */
 app.use('/api/user', userRouter);
 app.use('/api/dToons', dToonRouter);
+app.use('/api/collection', collectionRouter);
+app.use('/api/admin', adminRouter);
+app.use('/api/decks', decksRouter);
+app.use('/api/shop', shopRouter);
 
 // Serve static files
 app.use(express.static(path.join(__dirname, '..', 'build')));

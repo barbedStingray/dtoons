@@ -25,7 +25,7 @@ export default function useCollectDtoons() {
                 setStatusDtoons('loading');
     
                 try {
-                    const dToons = await axios.get(`/api/dToons/store`);
+                    const dToons = await axios.get(`/api/shop/display`);
                     setStoreDtoons(dToons.data);
                     // localCache[user] = dToons.data;
                     setStatusDtoons('loaded');

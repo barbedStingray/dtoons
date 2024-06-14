@@ -5,7 +5,7 @@ import axios from 'axios';
 export default async function createNewDeck(user, deckName, refreshDeckList) {
     console.log(user, deckName);
     try {
-        await axios.post(`/api/dToons/newDeck/${user}`, { deck: deckName });
+        await axios.post(`/api/decks/newDeck/${user}`, { deck: deckName });
         // regenerate deckList
         refreshDeckList();
     } catch (error) {
