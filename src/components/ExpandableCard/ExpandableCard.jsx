@@ -7,7 +7,7 @@ import { AnimatePresence, motion as m } from 'framer-motion';
 const ExpandableCard = ({ dToon, drag }) => {
 
     const [selectedId, setSelectedId] = useState(null);
-    console.log('selectedId', selectedId);
+    // console.log('selectedId', selectedId);
 
 
     return (

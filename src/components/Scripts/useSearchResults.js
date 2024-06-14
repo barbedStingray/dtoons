@@ -5,7 +5,7 @@ import axios from 'axios';
 // on the manipulated parameters
 
 
-export default function useFetchUserDecks(userId, currentPage, searchCharacter, selectedColors, selectedPoints, selectedRarity) {
+export default function useSearchResults(userId, currentPage, searchCharacter, selectedColors, selectedPoints, selectedRarity) {
     const [searchResults, setSearchResults] = useState([]);
     const [totalPages, setTotalPages] = useState(1);
     const itemsPerPage = 8;

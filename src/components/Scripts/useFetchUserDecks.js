@@ -3,23 +3,14 @@ import axios from 'axios';
 
 // This script fetches user decks
 
-const localCache = {};
-
-export default function useFetchUserDecks(user) {
+export default function useFetchUserDecks(user, dependency) {
     const [userDecks, setUserDecks] = useState([]);
     const [userDecksStatus, setUserDecksStatus] = useState('unloaded');
     // console.log('localCache', localCache);
 
     useEffect(() => {
-        // if (!user) {
-        //     setUserDtoons([]);
-        // } else if (localCache[user]) {
-        //     setUserDtoons(localCache[user]);
-        // } else {
-        //     requestUserDtoons(user);
-        // }
         requestUserDecks(user);
-    }, [user]);
+    }, [user, dependency]);
 
     async function requestUserDecks(user) {
         console.log('API CALL');

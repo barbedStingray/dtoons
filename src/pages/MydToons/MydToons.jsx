@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import ExpandableCard from '../../components/ExpandableCard/ExpandableCard';
+import DragnDrop from '../../components/DragnDrop/DragnDrop';
 import './MydToons.css';
 
 import useFetchUserDecks from '../../components/Scripts/useFetchUserDecks';
 import useSearchResults from '../../components/Scripts/useSearchResults';
-import useDeckCards from '../../components/Scripts/useDeckCards';
+import DeckPreview from '../../components/DeckPreview/DeckPreview';
+import EditDeck from '../../components/EditDeck/EditDeck';
+import createNewDeck from '../../components/Scripts/createNewDeck';
 
 const MydToons = () => {
 
   const user = useSelector((store) => store.user);
-  console.log('USER.id', user.id);
-
+  // console.log('USER.id', user.id);
 
   // Filter states and Pagination (useSearchResults)
   const [searchCharacter, setSearchCharacter] = useState('');
@@ -22,18 +22,39 @@ const MydToons = () => {
   const [selectedRarity, setSelectedRarity] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchResults, totalPages] = useSearchResults(user.id, currentPage, searchCharacter, selectedColors, selectedPoints, selectedRarity); // custom hook
-  // const [searchResults, setSearchResults] = useState([]); // original
-  // console.log('searchResults', searchResults);
 
+  // post New Deck
+  const [deckName, setDeckName] = useState('');
+  const [deckListUpdated, setDeckListUpdated] = useState(false);
+
+  const refreshUserDecks = () => {
+    setDeckListUpdated(!deckListUpdated);
+  }
 
   // set userDecks
-  const [userDecks, userDecksStatus] = useFetchUserDecks(user.id); // fetching user decks
+  const [userDecks, userDecksStatus] = useFetchUserDecks(user.id, deckListUpdated);
+  const [deckDisplay, setDeckDisplay] = useState(null);
   const [deckId, setDeckId] = useState(null);
-  const [deckOfCards, deckStatus, addCard, removeCard] = useDeckCards(deckId);
-  const [deckName, setDeckName] = useState('');
 
 
-
+  function generateDeckDisplay() {
+    switch (deckDisplay) {
+      case 'deckList':
+        return (
+          <div>
+            {userDecks.map((deck) => (
+              <div className='deckClick' key={deck.id}>
+                <DeckPreview deck={deck} setDeckId={setDeckId} setDeckDisplay={setDeckDisplay} />
+              </div>
+            ))}
+          </div>
+        );
+      case 'editDeck':
+        return <EditDeck deckId={deckId} setDeckDisplay={setDeckDisplay} />;
+      default:
+        return <div><p>No Deck Display</p></div>;
+    }
+  }
 
 
 
@@ -44,6 +65,8 @@ const MydToons = () => {
   const colorSelectOptions = ['red', 'blue', 'yellow', 'green', 'orange', 'purple', 'silver', 'black', 'white', 'pink'];
   const pointSelectOptions = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const raritySelectOptions = ['common', 'rare', 'epic', 'legend', 'mythic']
+  
+  // adding values to the arrays for parameters of search
   function handleSearchValue(value, stateArray, setState) {
     console.log(`add ${value} to search`);
     const updatedArray = stateArray.includes(value)
@@ -58,10 +81,6 @@ const MydToons = () => {
     setSelectedPoints([]);
     setSelectedRarity([]);
   }
-
-
-
-
 
 
   return (
@@ -107,7 +126,8 @@ const MydToons = () => {
       <div className='mydToon-collection'>
         <div className='mydToon-rowAdjust'>
           {searchResults.map((dToon) => (
-            <ExpandableCard key={dToon.id} dToon={dToon} />
+            <DragnDrop dToon={dToon} key={dToon.id} />
+            // <ExpandableCard key={dToon.id} dToon={dToon} />
           ))}
         </div>
         <div className='pagination'>
@@ -130,36 +150,9 @@ const MydToons = () => {
             onChange={(e) => setDeckName(e.target.value)}
             placeholder='Deck Name...'
           />
-          {/* <button onClick={() => createNewDeck(deckName)}>+Deck</button> */}
-          {/* {JSON.stringify(userDecks)} */}
-          {userDecks.map((deck) => (
-            <div key={deck.id}>
-              <p>{deck.deckname}</p>
-              <button onClick={() => setDeckId(deck.id)} >Edit</button>
-            </div>
-          ))}
-          <div>
-            display for the 'editDeck'
-            <br />
-            {JSON.stringify(deckName)}
-            {/* <div className='deckView' ref={drop}> */}
-            <div className='deckView'>
-              {deckOfCards.map((dToon) => (
-                <div key={dToon.id}>
-                  <ExpandableCard
-                    // key={dToon.id}
-                    dToon={dToon}
-                  // toggleCardOpenState={toggleCardOpenState}
-                  // openStates={openStates}
-                  />
-                  {/* <img className='toonImage' src={dToon.image} alt='toon image' /> */}
-                  {/* <button onClick={() => removeCard(dToon.id, deckId)}>-</button> */}
-                </div>
-              ))}
-            </div>
-
-          </div>
-
+          <button onClick={() => createNewDeck(user.id, deckName, refreshUserDecks)}>+Deck</button>
+          <div onClick={() => setDeckDisplay(deckDisplay === null ? 'deckList' : null)} className='viewDecksDiv'></div>
+          {generateDeckDisplay(deckDisplay)}
         </div>
 
 
@@ -169,4 +162,4 @@ const MydToons = () => {
   )
 }
 
-export default MydToons
+export default MydToons;

@@ -10,8 +10,6 @@ function* createNewToon(action) {
         // POST a new dToon
         yield axios.post(`/api/dToons/newToon`, action.payload);
 
-        // dispatch ?
-
     } catch (error) {
       console.log(`error in POST new dToon`);
       alert(`Error in POST new dToon!`);

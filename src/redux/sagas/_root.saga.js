@@ -4,7 +4,6 @@ import registrationSaga from './registration.saga';
 import userSaga from './user.saga';
 import createdToonSaga from './createToon.saga';
 import buydToonPackSaga from './buydToonPack.saga';
-import createNewDeckSaga from './newDeck.saga';
 
 // rootSaga is the primary saga.
 // It bundles up all of the other sagas so our project can use them.
@@ -20,6 +19,5 @@ export default function* rootSaga() {
     
     createdToonSaga(), // create new dToon path
     buydToonPackSaga(), // purchase dToon pack
-    createNewDeckSaga(), // creates a new deck
   ]);  
 }

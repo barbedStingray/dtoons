@@ -32,7 +32,7 @@ const Nav = () => {
                     <Link to='/store'><h3>dToons Store</h3></Link>
                     <Link to='/mydToons'><h3>Collection</h3></Link>
                     <Link to='/rules'><h3>Rules</h3></Link>
-                    <Link to='/decks'><h3>Decks</h3></Link>
+                    {/* <Link to='/decks'><h3>Decks</h3></Link> */}
                 </>
                 :
                 <></>

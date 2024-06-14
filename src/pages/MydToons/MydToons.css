@@ -27,9 +27,17 @@
 }
 
 
+.viewDecksDiv {
+    border: 2px solid black;
+    height: 30px;
+}
 .userDecksDisplay {
     border: 2px solid orange;
     width: 30vw;
+}
+
+.deckClick{
+    border: 2px solid red;
 }
 
 

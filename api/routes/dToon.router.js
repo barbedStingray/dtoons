@@ -34,12 +34,13 @@ router.get('/userDecks/:id', (req, res) => {
     });
 });
 
-// GET Cards in a deck
+// GET Cards in a single deck
 router.get('/deck/:id', (req, res) => {
     console.log('in router GET /deck/:id', req.params.id);
 
+    // This fetches the id for the card in the user collection
     const queryText = `SELECT 
-    "deck_cards"."id",
+"dcollection"."id",
     "dtoons"."cardtitle",
     "dtoons"."character",
     "dtoons"."image",
@@ -55,7 +56,8 @@ router.get('/deck/:id', (req, res) => {
     "dtoons"."rarity",
     "dtoons"."movie"
 FROM "deck_cards"
-JOIN "dtoons" ON "dtoons"."id" = "deck_cards"."card_id"
+JOIN "dcollection" ON "dcollection"."id" = "deck_cards"."card_id"
+JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
 WHERE "deck_id" = $1;`
 
     pool.query(queryText, [req.params.id]).then((result) => {
@@ -159,9 +161,8 @@ router.post('/purchase', async (req, res) => {
 });
 
 
-// CREATE A NEW DECK
+// POST - new DeckName
 router.post('/newDeck/:id', (req, res) => {
-
     console.log('req.body', req.body.deck);
     console.log('req.params', req.params.id);
     const deckName = req.body.deck;
@@ -197,16 +198,18 @@ router.get('/getCardId/:id', (req, res) => {
         alert('error in converting ID collection to dToon')
     });
 });
+
 // POST a card into a deck
 router.post('/addCard', (req, res) => {
     console.log('req.body', req.body);
-    console.log('req.body', req.body.deckId);
-    console.log('req.body', req.body.newCardId);
+    const { deckId, toonId } = req.body;
+    console.log('deckId', deckId);
+    console.log('toonId', toonId);
 
     const queryText = `INSERT INTO "deck_cards" ("deck_id", "card_id")
                         VALUES ( $1, $2 )`;
 
-    pool.query(queryText, [req.body.deckId, req.body.newCardId]).then((result) => {
+    pool.query(queryText, [deckId, toonId]).then((result) => {
         console.log('success in posting to the deck');
         res.sendStatus(201);
     }).catch((error) => {
@@ -219,12 +222,11 @@ router.post('/addCard', (req, res) => {
 
 
 
-// DELETE card from deck
-router.delete('/deleteFromDeck/:id', (req, res) => {
-    console.log('in /deleteFromDeck/:id', req.params.id);
-
+// DELETE entire deck
+router.delete('/deleteEntireDeck/:id', (req, res) => {
+    console.log('in /deleteEntireDeck/:id', req.params.id);
     const queryText = `DELETE FROM "deck_cards"
-                        WHERE "id" = $1;`
+                        WHERE "deck_id" = $1;`
 
     pool.query(queryText, [req.params.id]).then((result) => {
         console.log('delete from deck SUCCESS');
