@@ -28,7 +28,7 @@ const DragnDrop = ({ dToon }) => {
                     // layoutId={dToon.id}
                 >
                     <p>{dToon.cardtitle}</p>
-                    <p>{dToon.count}</p>
+                    {/* <p>{dToon.count}</p> */}
                     <img className='toonImageTest' ref={drag} src={dToon.image} alt='toon image here' />
                 </div>
             </div>

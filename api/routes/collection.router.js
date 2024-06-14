@@ -4,15 +4,17 @@ const router = express.Router();
 
 // This is the /collection route
 
+
+
 // route fetches and filters user dToon collection
 router.get('/search/:id', async (req, res) => {
     console.log('searching user dToons PARAMS', req.params.id);
-
+    
     const userId = req.params.id;
     const { colors, letters, points, rarity, page = 1, limit = 10 } = req.query; // = defaults if no parameter
     console.log('user', userId);
     console.log('colors', colors);
-    console.log('letters', letters);
+    console.log('letter', letters);
     console.log('points', points);
     console.log('rarity', rarity);
     console.log('page', page);
@@ -24,102 +26,79 @@ router.get('/search/:id', async (req, res) => {
 
     const offset = (page - 1) * limit;
 
-    try {
-        // Building the filter conditions
-        let filterConditions = [];
-        let queryValues = [userId];
-
-        if (colors) {
-            filterConditions.push('"dtoons"."color" = ANY($' + (queryValues.length + 1) + ')');
-            queryValues.push(colors); // Assuming colors are passed as comma-separated values
-        }
-        if (letters) {
-            filterConditions.push('"dtoons"."character" ILIKE $' + (queryValues.length + 1));
-            queryValues.push(`${letters}%`);
-        }
-        if (points) {
-            filterConditions.push('"dtoons"."points" = ANY($' + (queryValues.length + 1) + ')');
-            queryValues.push(points); // Assuming points are passed as comma-separated values
-        }
-        if (rarity) {
-            filterConditions.push('"dtoons"."rarity" = ANY($' + (queryValues.length + 1) + ')');
-            queryValues.push(rarity); // Assuming rarity are passed as comma-separated values
-        }
-
-        // Base query to include card counts and filters
-        let baseQueryText = `
-        WITH CardCounts AS (
-            SELECT 
-                "card_id", 
-                COUNT(*) AS "count"
-            FROM "dcollection"
-            WHERE "user_id" = $1
-            GROUP BY "card_id"
-        ),
-        distinct_cards AS (
-            SELECT DISTINCT "dcollection"."card_id"
+    // let queryText = 'SELECT * FROM "dtoons"';
+    let queryText = `SELECT 
+		"dcollection"."id",
+		"dtoons"."cardtitle",
+		"dtoons"."character",
+		"dtoons"."image",
+		"dtoons"."color",
+		"dtoons"."points",
+		"dtoons"."desc0",
+		"dtoons"."desc1",
+		"dtoons"."cardtype",
+		"dtoons"."cardkind",
+		"dtoons"."group",
+		"dtoons"."gender",
+		"dtoons"."role",
+		"dtoons"."rarity",
+		"dtoons"."movie"
             FROM "dcollection"
             JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
-            WHERE "dcollection"."user_id" = $1`;
+            JOIN "dtoonuser" ON "dtoonuser"."id" = "dcollection"."user_id"
+            WHERE "dtoonuser"."id" = $1`;
 
-        if (filterConditions.length > 0) {
-            baseQueryText += ' AND ' + filterConditions.join(' AND ');
-        }
-
-        baseQueryText += `
-        )
-        SELECT 
-            "dtoons"."id",
-            "dtoons"."cardtitle",
-            "dtoons"."character",
-            "dtoons"."image",
-            "dtoons"."color",
-            "dtoons"."points",
-            "dtoons"."desc0",
-            "dtoons"."desc1",
-            "dtoons"."cardtype",
-            "dtoons"."cardkind",
-            "dtoons"."group",
-            "dtoons"."gender",
-            "dtoons"."role",
-            "dtoons"."rarity",
-            "dtoons"."movie",
-            COALESCE(cc."count", 1) AS "count"
-        FROM 
-            distinct_cards
-        JOIN 
-            "dtoons" ON "dtoons"."id" = distinct_cards."card_id"
-        LEFT JOIN 
-            CardCounts AS cc ON distinct_cards."card_id" = cc."card_id"
-        ORDER BY "dtoons"."character"
-        LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`;
-
-        queryValues.push(limit, offset);
-
-        // final queries
-        console.log('Final Query:', baseQueryText);
-        console.log('Query Values:', queryValues);
-
-        const mainQueryResult = await pool.query(baseQueryText, queryValues);
-        
-        // Count query for total number of items
-        let countQueryText = `
-        SELECT COUNT(DISTINCT "dcollection"."card_id") AS total_count
-        FROM "dcollection"
+    let countQueryText = `SELECT COUNT(*) AS total_count FROM "dcollection"
         JOIN "dtoons" ON "dtoons"."id" = "dcollection"."card_id"
         WHERE "dcollection"."user_id" = $1`;
 
-        if (filterConditions.length > 0) {
-            countQueryText += ' AND ' + filterConditions.join(' AND ');
-        }
 
-        console.log('Count Query:', countQueryText);
-        const countQueryResult = await pool.query(countQueryText, [userId, ...queryValues.slice(1, queryValues.length - 2)]);
-        
+    let queryValues = [userId];
+    const conditions = [];
+
+
+    // PARAMETERS - Query Text Building
+    if (colors) {
+        conditions.push('"color" = ANY($' + (queryValues.length + 1) + ')');
+        queryValues.push(colors);
+    }
+    if (letters) {
+        conditions.push('"character" ILIKE $' + (queryValues.length + 1));
+        queryValues.push(`${letters}%`);
+    }
+    // if (points && points.length > 0) { // Adjusted for multiple points
+    if (points) {
+        conditions.push('"points" = ANY($' + (queryValues.length + 1) + ')');
+        queryValues.push(points);
+    }
+    if (rarity) {
+        conditions.push('"rarity" = ANY($' + (queryValues.length + 1) + ')');
+        queryValues.push(rarity);
+    }
+
+    // main query additional conditions
+    if (conditions.length > 0) {
+        queryText += ' AND ' + conditions.join(' AND ');
+        countQueryText += ' AND ' + conditions.join(' AND ');
+    }
+
+    // final logs for checking
+    console.log('queryText', queryText);
+    console.log('queryValues', queryValues);
+    console.log('countQueryText', countQueryText);
+
+
+    try {
+        // main query to fetch data for current page
+        const mainQueryResult = await pool.query(queryText + ` LIMIT $${queryValues.length + 1} OFFSET $${queryValues.length + 2}`, [...queryValues, limit, offset]);
+        // query count for total number of items
+        const countQueryResult = await pool.query(countQueryText, queryValues);
+        // extract data
         const mainData = mainQueryResult.rows;
         const totalCount = countQueryResult.rows[0].total_count;
+        // calculate total pages
         const totalPages = Math.ceil(totalCount / limit);
-
+        // send your response package
         console.log('RESULTS PAGES', totalCount, totalPages);
         res.status(200).json({ results: mainData, totalCount, totalPages });
 
@@ -128,5 +107,11 @@ router.get('/search/:id', async (req, res) => {
         res.sendStatus(500);
     }
 });
+
+
+
+
+
+
 
 module.exports = router;

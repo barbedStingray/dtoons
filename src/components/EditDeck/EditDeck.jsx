@@ -8,8 +8,8 @@ const EditDeck = ({ deckId, setDeckDisplay }) => {
     // const [deckOfCards] = useDeckCards(deckId);
     const [originalDeckOfCards, deckStatus] = useDeckCards(deckId);
     const [deckOfCards, setDeckOfCards] = useState([]);
-    // console.log('originalDeckOfCards', originalDeckOfCards);
-    // console.log('deckOfCards', deckOfCards);
+    console.log('originalDeckOfCards', originalDeckOfCards);
+    console.log('deckOfCards', deckOfCards);
 
     // Copy the original deck to local state when the component mounts
     useEffect(() => {
