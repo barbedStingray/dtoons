@@ -3,14 +3,14 @@ import axios from 'axios';
 
 // This script fetches user deck names
 
-export default function useFetchUserDecks(user, dependency) {
+export default function useFetchUserDecks(user, deckListUpdated) {
     const [userDecks, setUserDecks] = useState([]);
     const [userDecksStatus, setUserDecksStatus] = useState('unloaded');
     // console.log('localCache', localCache);
 
     useEffect(() => {
         requestUserDecks(user);
-    }, [user, dependency]);
+    }, [user, deckListUpdated]);
 
     async function requestUserDecks(user) {
         console.log('API CALL');

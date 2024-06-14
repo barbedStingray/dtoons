@@ -46,7 +46,7 @@ const MydToons = () => {
           <div>
             {userDecks.map((deck) => (
               <div className='deckClick' key={deck.id}>
-                <DeckPreview deck={deck} setDeckId={setDeckId} setDeckDisplay={setDeckDisplay} />
+                <DeckPreview deck={deck} setDeckId={setDeckId} setDeckDisplay={setDeckDisplay} refreshUserDecks={refreshUserDecks} />
               </div>
             ))}
           </div>

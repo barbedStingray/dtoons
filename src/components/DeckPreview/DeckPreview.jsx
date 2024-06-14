@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import useDeckCards from '../../components/Scripts/useDeckCards';
+import deleteEntireDeck from '../../components/Scripts/deleteEntireDeck';
 
-const DeckPreview = ({ deck, setDeckId, setDeckDisplay }) => {
+const DeckPreview = ({ deck, setDeckId, setDeckDisplay, refreshUserDecks }) => {
     const { id, deckname } = deck;
     const [deckOfCards, deckStatus] = useDeckCards(id);
     const [deckPreview, setDeckPreview] = useState(false);
@@ -13,10 +14,12 @@ const DeckPreview = ({ deck, setDeckId, setDeckDisplay }) => {
         setDeckDisplay('editDeck');
     }
 
-    // delete entire deck
-    function deleteEntireDeck(deckId) {
-        console.log('deleting entire deck', deckId);
-    }
+    const handleDeleteDeck = async () => {
+        await deleteEntireDeck(id);
+        refreshUserDecks();
+      };
+
+
 
     return (
         <div>
@@ -31,7 +34,7 @@ const DeckPreview = ({ deck, setDeckId, setDeckDisplay }) => {
                 </>
             )}
         <button onClick={toggleEditDeckView}>Edit</button>
-        <button onClick={() => deleteEntireDeck(id)}>Delete Deck</button>
+        <button onClick={handleDeleteDeck}>Delete Deck</button>
         </div>
     );
 };
