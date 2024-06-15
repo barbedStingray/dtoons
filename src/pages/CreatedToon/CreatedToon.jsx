@@ -2,8 +2,18 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import InputChange from './InputChange';
 
+import cardTree from '../../components/Scripts/dToonAttributes/cardTree';
+import attColor from '../../components/Scripts/dToonAttributes/attColor';
+import attPoints from '../../components/Scripts/dToonAttributes/attPoints';
+import attMovie from '../../components/Scripts/dToonAttributes/attMovie';
 
 const NewdToon = () => {
+
+
+    const attType = ['People', 'Animal', 'Thing', 'Legend', 'Place'];
+    console.log(attType);
+    const { People, Animal, Thing, Legend, Place } = cardTree;
+    console.log('cardTree', cardTree);
 
     const dispatch = useDispatch();
 
@@ -23,17 +33,14 @@ const NewdToon = () => {
         rarity: '',
         movie: '',
     });
-
     // one function, sets all variables
     const newToonChange = (key) => (e) => {
         setNewToon({ ...newToon, [key]: e.target.value });
     }
-
     function createNewdToon(e) {
         e.preventDefault();
         console.log(`submitting data to create dToon`, newToon);
         dispatch({ type: 'CREATE_NEW_DTOON', payload: newToon })
-
         // clear inputs
         setNewToon({
             cardtitle: '',
@@ -53,7 +60,6 @@ const NewdToon = () => {
         })
 
     }
-
     // mapping input types
     const inputBoxes = [
         {
@@ -142,10 +148,96 @@ const NewdToon = () => {
         }
     ];
 
+    const [newCardAttributes, setNewCardAttributes] = useState({
+        cardtitle: '',
+        character: '',
+        image: '',
+        color: null,
+        points: null,
+        desc0: '',
+        desc1: '',
+        cardtype: null,
+        cardkind: null,
+        group: '',
+        gender: '',
+        role: '',
+        rarity: '',
+        movie: null,
+    });
+    console.log('newCardAttributes', newCardAttributes);
+
+    function insertNewCardAttributes(e) {
+        const { name, value } = e.target;
+        console.log('name & value', name, value);
+        setNewCardAttributes({ ...newCardAttributes, [name]: value });
+
+        // // Reset cardkind to empty string when cardtype changes
+        // if (name === 'cardtype') {
+        //     setNewCardAttributes({ ...newCardAttributes, ['cardkind']: '' });
+        // }
+    }
+
+
+    const getCardKindOptions = () => {
+        switch (newCardAttributes.cardtype) {
+            case 'People':
+                return People;
+            case 'Animal':
+                return Animal;
+            case 'Thing':
+                return Thing;
+            case 'Legend':
+                return Legend;
+            case 'Place':
+                return Place;
+            default:
+                return [];
+        }
+    };
+    const cardKindOptions = getCardKindOptions();
+
 
     return (
         <div>
             <h1>Lets make a dToon</h1>
+
+            <select name='cardtype' onChange={insertNewCardAttributes}>
+                <option value=''>Select Type</option>
+                {attType.map((att) => (
+                    <option key={att} value={att}>{att}</option>
+                ))}
+            </select>
+
+            <select name='cardkind' onChange={insertNewCardAttributes}>
+                <option value=''>Select Type</option>
+                {cardKindOptions.map((att) => (
+                    <option key={att} value={att}>{att}</option>
+                ))}
+            </select>
+
+            <select name='color' onChange={insertNewCardAttributes}>
+                <option value=''>Select Type</option>
+                {attColor.map((att) => (
+                    <option key={att} value={att}>{att}</option>
+                ))}
+            </select>
+
+            <select name='points' onChange={insertNewCardAttributes}>
+                <option value=''>Select Type</option>
+                {attPoints.map((att) => (
+                    <option key={att} value={att}>{att}</option>
+                ))}
+            </select>
+
+            <select name='movie' onChange={insertNewCardAttributes}>
+                <option value=''>Select Type</option>
+                {attMovie.map((att) => (
+                    <option key={att} value={att}>{att}</option>
+                ))}
+            </select>
+            {JSON.stringify(newCardAttributes)}
+
+
 
             <form onSubmit={createNewdToon}>
                 {inputBoxes.map((box, i) => (
@@ -162,7 +254,7 @@ const NewdToon = () => {
                 <button type='submit' >Create</button>
             </form>
 
-            
+
             {JSON.stringify(newToon)}
 
             <img src={`${newToon.image}`} alt='new toon image' className='toonImage' />
