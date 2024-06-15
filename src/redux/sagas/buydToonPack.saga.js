@@ -9,7 +9,7 @@ function* buydToonPack(action) {
         console.log('action.payload', action.payload);
         
         // would have to assign this to a variable if you send things back?
-        const newToons = yield axios.post(`/api/dToons/purchase`, action.payload);
+        const newToons = yield axios.post(`/api/shop/purchase`, action.payload);
         console.log('newToons', newToons.data);
 
         // set a reducer for display of congratulations

@@ -14,9 +14,11 @@ import HomePage from '../../pages/HomePage/HomePage';
 import RulesPage from '../../pages/RulesPage/RulesPage';
 import MydToons from '../../pages/MydToons/MydToons';
 import StorePage from '../../pages/StorePage/StorePage';
-// import DecksPage from '../../pages/DecksPage/DecksPage';
-// import EditDecksPage from '../../pages/DecksPage/EditDecksPage';
 import NewToons from '../../pages/StorePage/NewToons/NewToons';
+
+// the GAME
+import DeckSelect from '../../pages/TheGame/DeckSelect';
+
 
 import CreatedToon from '../../pages/CreatedToon/CreatedToon';
 
@@ -69,6 +71,7 @@ function App() {
           {/* <Route path='/decks' element={<ProtectedRoute> <DecksPage /> </ProtectedRoute>} /> */}
           {/* <Route path='/editDeck/:deckId' element={<ProtectedRoute> <EditDecksPage /> </ProtectedRoute>} /> */}
           <Route path='/newdToon' element={<ProtectedRoute> <NewToons /> </ProtectedRoute>} />
+          <Route path='/deckSelect' element={<ProtectedRoute> <DeckSelect /> </ProtectedRoute>} />
 
           {/* ADMIN ROUTES */}
           <Route path='/createdToon' element={<ProtectedRoute> <CreatedToon /> </ProtectedRoute>} />

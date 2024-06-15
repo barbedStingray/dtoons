@@ -1,0 +1,53 @@
+.theGameBoard {
+    border: 2px solid black;
+    height: 100vh;
+    position: relative;
+}
+
+.deckSelect {
+    border: 2px solid magenta;
+    background-color: #ecebeb;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: rgba(0, 0, 0, 0.8); */
+    /* Semi-transparent background */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    /* z-index: 1000; */
+    /* Ensure it's on top of other elements */
+}
+
+.deckSelectContent {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+  .playerCircles {
+    border: 2px solid magenta;
+    display: flex;
+    gap: 5vh;
+  }
+  .cardSlot {
+    border: 2px solid blue;
+    width: 30vh;
+    height: 25vh;
+  }
+
+  .playerDeck {
+    border: 2px solid orange;
+    height: 24vh;
+    display: flex;
+
+
+  }
