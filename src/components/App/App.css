@@ -27,6 +27,21 @@
   background: white;
   /* display: flex; */
 }
+.toonImageTest {
+  border: 2px solid magenta;
+  width: 125px;
+  /* max-width: 60%; Ensure the image doesn't exceed the parent's width */
+  height: auto; /* Maintain aspect ratio */
+  /* display: block; Prevent extra space below image */
+}
+.dToonStoreDisplay {
+  border: 2px solid limegreen;
+  display: flex;
+}
+
+
+
+
 .dToonExpand {
   border: 2px solid yellow;
   background-color: black;
@@ -46,19 +61,7 @@
   border: 2px solid red;
 }
 
-.dToonStoreDisplay {
-  border: 2px solid limegreen;
-  display: flex;
-  
-}
 
-.toonImageTest {
-  border: 2px solid magenta;
-  width: 125px;
-  /* max-width: 60%; Ensure the image doesn't exceed the parent's width */
-  height: auto; /* Maintain aspect ratio */
-  /* display: block; Prevent extra space below image */
-}
 
 .dToonModal {
   border: 2px solid red;
