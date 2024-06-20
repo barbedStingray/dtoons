@@ -3,14 +3,18 @@ import { useDrag } from 'react-dnd';
 // import ExpandableCard from '../ExpandableCard/ExpandableCard';
 
 
-const DragnDrop = ({ dToon }) => {
+const DragnDrop = ({ dToon, deckSlot, gameSlot }) => {
 
     // console.log('image', dToon.image );
-    // console.log('id', dToon.id );
+    console.log(`DRAG N DROP - id: ${dToon.id} & slot: ${deckSlot}`);
 
     const [{ isDragging }, drag] = useDrag(() => ({
         type: 'dToon',
-        item: { dToon: dToon },
+        item: { 
+            dToon: dToon, 
+            fromDeckSlot: deckSlot,
+            fromGameSlot: gameSlot,
+        },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
@@ -18,10 +22,7 @@ const DragnDrop = ({ dToon }) => {
 
 
     return (
-        <div
-            key={dToon.id}
-            className='dToonCard'
-        >
+        <div key={dToon.id} className='dToonCard' >
 
             <div className='dToonStoreDisplay'>
                 <div

@@ -58,13 +58,13 @@
     border: 2px solid lime;
     display: flex;
     flex-flow: column nowrap;
-    flex: 4;
+    flex: 3;
   }
 
   .playerCircles, .opponentCircles {
     border: 2px solid magenta;
     display: flex;
-    flex: 5;
+    flex: 4;
     flex-flow: row wrap;
     justify-content: center;
     align-items: center;
@@ -90,7 +90,7 @@
     border: 2px solid blue;
     width: 20vh;
     display: flex;
-    flex: 1.5;
+    flex: 2;
     flex-flow: column nowrap;
   }
 
