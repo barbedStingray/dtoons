@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import useFetchUserDecks from '../../components/Scripts/useFetchUserDecks';
 import ListGameDecks from '../../components/GameComponents/ListGameDecks';
 import DragnDrop from '../../components/DragnDrop/DragnDrop';
+import GameDeckToon from '../../components/DtoonIcons/GameDeckToon';
 import { useDrop } from 'react-dnd';
 
 
@@ -39,20 +40,45 @@ const DeckSelect = () => {
   console.log('slot7', slot7);
 
   const [roundOneScore, setRoundOneScore] = useState(0);
+  const [isRoundOneScored, setIsRoundOneScored] = useState(false);
+
+  const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [cardsToKeep, setCardsToKeep] = useState([]);
+
+  // State for dealt cards
+  const [dealtCards, setDealtCards] = useState([]);
+
+
+  const [roundTwoScore, setRoundTwoScore] = useState(0);
+  const [isRoundTwoScored, setIsRoundTwoScored] = useState(false);
+
+
 
   // function to score the round.
-  function scoreRound() {
-    console.log('scoring round', slot1.points, slot2.points, slot3.points, slot4.points, slot5.points, slot6.points, slot7.points);
+  function scoreRoundOne() {
+    console.log('scoring round ONE', slot1.points, slot2.points, slot3.points, slot4.points);
     const totalScore = Number(slot1.points) + Number(slot2.points) + Number(slot3.points) + Number(slot4.points);
     setRoundOneScore(totalScore);
+    setIsRoundOneScored(true); // Enable slots 5-7 after scoring round one
+
+    // display discard modal
+    setShowDiscardModal(true);
   }
+  function scoreRoundTwo() {
+    console.log('scoring round TWO', slot5.points, slot6.points, slot7.points);
+    const totalScore = Number(slot5.points) + Number(slot6.points) + Number(slot7.points);
+    setRoundTwoScore(totalScore);
+    setIsRoundTwoScored(true); // Enable slots 5-7 after scoring round one
+  }
+
+
 
 
   useEffect(() => {
     // if (playerOneDeckId) {
-      fetchOriginalGamingCards(1);
+    fetchOriginalGamingCards(1);
     // }
-  // }, [playerOneDeckId]);
+    // }, [playerOneDeckId]);
   }, [playerOneDeckId]);
 
 
@@ -62,10 +88,11 @@ const DeckSelect = () => {
     const deckOne = await axios.get(`/api/dToons/deckOne/${deckId}`);
     console.log('deckOne', deckOne.data);
     setPlayerOneDeck(deckOne.data);
-    // todo shuffle cards and deal X
+    // shuffle cards and deal X
+    shuffleAndDeal(deckOne.data);
   }
 
-
+  // SLOT FUNCTIONALITY
   // Drop functionality for each slot
   const [, dropSlot1] = useDrop({
     accept: 'dToon',
@@ -97,26 +124,25 @@ const DeckSelect = () => {
   });
   const [, dropSlot5] = useDrop({
     accept: 'dToon',
-    drop: (item) => handleDrop(5, item.dToon),
+    drop: (item) => isRoundOneScored ? handleDrop(5, item.dToon) : null,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   });
   const [, dropSlot6] = useDrop({
     accept: 'dToon',
-    drop: (item) => handleDrop(6, item.dToon),
+    drop: (item) => isRoundOneScored ? handleDrop(6, item.dToon) : null,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   });
   const [, dropSlot7] = useDrop({
     accept: 'dToon',
-    drop: (item) => handleDrop(7, item.dToon),
+    drop: (item) => isRoundOneScored ? handleDrop(7, item.dToon) : null,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
     }),
   });
-
   // Function to handle dropping a dToon into a slot
   const handleDrop = (slotNumber, dToon) => {
     console.log(`Added toon to slot ${slotNumber}`, dToon);
@@ -146,52 +172,50 @@ const DeckSelect = () => {
         break;
     }
     // Remove dropped card from playerOneDeck
-    setPlayerOneDeck(prevDeck => prevDeck.filter(card => card.id !== dToon.id));
+    setDealtCards(prevDeck => prevDeck.filter(card => card.id !== dToon.id));
   };
-
-
   // Function to handle clicking on a slot to return the card to the player deck
   const returnToDeck = (slotNumber) => {
     switch (slotNumber) {
       case 1:
         if (slot1) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot1]);
+          setDealtCards(prevDeck => [...prevDeck, slot1]);
           setSlot1(null);
         }
         break;
       case 2:
         if (slot2) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot2]);
+          setDealtCards(prevDeck => [...prevDeck, slot2]);
           setSlot2(null);
         }
         break;
       case 3:
         if (slot3) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot3]);
+          setDealtCards(prevDeck => [...prevDeck, slot3]);
           setSlot3(null);
         }
         break;
       case 4:
         if (slot4) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot4]);
+          setDealtCards(prevDeck => [...prevDeck, slot4]);
           setSlot4(null);
         }
         break;
       case 5:
         if (slot5) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot5]);
+          setDealtCards(prevDeck => [...prevDeck, slot5]);
           setSlot5(null);
         }
         break;
       case 6:
         if (slot6) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot6]);
+          setDealtCards(prevDeck => [...prevDeck, slot6]);
           setSlot6(null);
         }
         break;
       case 7:
         if (slot7) {
-          setPlayerOneDeck(prevDeck => [...prevDeck, slot7]);
+          setDealtCards(prevDeck => [...prevDeck, slot7]);
           setSlot7(null);
         }
         break;
@@ -201,6 +225,37 @@ const DeckSelect = () => {
   };
 
 
+  const handleKeepCard = (card) => {
+    console.log('keeping card');
+    setCardsToKeep(prev => [...prev, card]);
+  };
+  const handleDiscardCard = (card) => {
+    setDealtCards(prevDeck => prevDeck.filter(c => c.id !== card.id));
+  };
+
+
+  const refillDealtCards = () => {
+    setShowDiscardModal(false);
+    const remainingCards = cardsToKeep.length <= 5 ? cardsToKeep.length : 5;
+    const newDealtCards = [...cardsToKeep, ...playerOneDeck.slice(0, 6 - remainingCards)];
+    setDealtCards(newDealtCards);
+    setPlayerOneDeck(playerOneDeck.slice(6 - remainingCards));
+  };
+
+
+
+  function shuffleAndDeal(deck) {
+    // Shuffle the deck
+    const shuffledDeck = deck.sort(() => Math.random() - 0.5);
+    // Deal six cards
+    setDealtCards(shuffledDeck.slice(0, 6));
+    // Update the player deck with the remaining cards
+    setPlayerOneDeck(shuffledDeck.slice(6));
+  }
+
+
+  console.log('dealt cARDS', dealtCards);
+  console.log('cards in deck', playerOneDeck);
 
 
 
@@ -227,14 +282,35 @@ const DeckSelect = () => {
       )} */}
 
 
+      {/* MODAL FOR DISCARDING AFTER FIRST ROUND */}
+      {showDiscardModal && (
+        <div className='modal'>
+          <div className='modalContent'>
+            <h3>What do you want to do with the remaining cards?</h3>
+            {dealtCards.map(card => (
+              <div key={card.id} className='modalCard'>
+                <img src={card.image} alt={card.cardtitle} style={{ height: '80px' }} />
+                <p>{card.cardtitle}</p>
+                <button onClick={() => handleKeepCard(card)}>Keep</button>
+                <button onClick={() => handleDiscardCard(card)}>Discard</button>
+              </div>
+            ))}
+            <button onClick={refillDealtCards}>Close</button>
+          </div>
+        </div>
+      )}
+
+
 
 
 
       {/* THE SCOREBOARD (LEFT SIDE) */}
 
       <div className='scoreboard'>
-        <button onClick={scoreRound}>SCORE ROUND</button>
+        <button onClick={scoreRoundOne}>SCORE ROUND ONE</button>
         <p>Round One Score: {roundOneScore}</p>
+        <button onClick={scoreRoundTwo}>SCORE ROUND Two</button>
+        <p>Round One Score: {roundTwoScore}</p>
 
       </div>
 
@@ -247,7 +323,7 @@ const DeckSelect = () => {
       <div className='theGameBoard'>
 
 
-{/* OPPONENT CIRCLES */}
+        {/* OPPONENT CIRCLES */}
         <div className='opponentCircles'>
           <div className='cardSlot'></div>
           <div className='cardSlot'></div>
@@ -265,7 +341,7 @@ const DeckSelect = () => {
         </div>
 
 
-{/* PLAYER CIRCLES */}
+        {/* PLAYER CIRCLES */}
 
         <div className='playerCircles'>
           <div className='cardSlot' ref={dropSlot1} onClick={() => returnToDeck(1)}>
@@ -347,7 +423,6 @@ const DeckSelect = () => {
           </div>
         </div>
 
-
       </div>
 
 
@@ -358,12 +433,14 @@ const DeckSelect = () => {
       <div className='gameDeck'>
 
         <div className='gameCardDetails'>
-          
+
         </div>
 
         <div className='playerDeck'>
-          {playerOneDeck.map((card) => (
-            <div key={card.id}>
+
+          {dealtCards.map((card) => (
+            <div key={card.id} className='deckCircle'>
+              {/* <GameDeckToon dToon={card} /> */}
               <DragnDrop dToon={card} />
             </div>
           ))}

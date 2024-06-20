@@ -47,6 +47,7 @@
     width: 20vh;
     display: flex;
     flex: 1;
+    flex-flow: column nowrap;
   }
 
 
@@ -101,7 +102,14 @@
   .playerDeck {
     border: 2px solid orange;
     height: 24vh;
-    display: flex;
-    flex-flow: column wrap;
-    flex: 1
+    /* display: flex; */
+    /* flex-flow: column wrap; */
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+  }
+  .deckCircle {
+    border: 2px solid blue;
+    
   }
