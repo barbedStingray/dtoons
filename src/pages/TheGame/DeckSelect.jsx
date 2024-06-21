@@ -18,12 +18,13 @@ const DeckSelect = () => {
 
   // player deck
   const [playerOneDeckId, setPlayerOneDeckId] = useState(null);
-  const [playerOneDeck, setPlayerOneDeck] = useState([]);
-
 
   // SLOT GROUPINGS
-
   // deck/hand slots
+  const [playerOneDeck, setPlayerOneDeck] = useState([]); // this is your deck
+  const [deckSlots, setDeckSlots] = useState([null, null, null, null, null, null]); // this is your hand
+  const [gameSlots, setGameSlots] = useState([null, null, null, null, null, null, null]); // this is the cards in play
+
   const [deckSlot1, setDeckSlot1] = useState(null);
   const [deckSlot2, setDeckSlot2] = useState(null);
   const [deckSlot3, setDeckSlot3] = useState(null);
@@ -56,19 +57,18 @@ const DeckSelect = () => {
   console.log('gameSlot7', gameSlot7);
 
 
-    async function fetchOriginalGamingCards(deckId) {
-      console.log('fetching the gaming cards', deckId);
-      const deckOne = await axios.get(`/api/dToons/deckOne/${deckId}`);
-      console.log('deckOne', deckOne.data);
-      // setPlayerOneDeck(deckOne.data); // necessary?
-      setPlayerOneDeck(deckOne.data);
-      // return deckOne.data;
-    }
+  async function fetchOriginalGamingCards(deckId) {
+    console.log('fetching the gaming cards', deckId);
+    const deckOne = await axios.get(`/api/dToons/deckOne/${deckId}`);
+    console.log('deckOne', deckOne.data);
+    setPlayerOneDeck(deckOne.data);
+    // return deckOne.data;
+  }
 
-    useEffect(() => {
-      fetchOriginalGamingCards(1);
-    },[])
-  
+  useEffect(() => {
+    fetchOriginalGamingCards(1);
+  }, [])
+
 
 
 
@@ -108,7 +108,7 @@ const DeckSelect = () => {
   });
   const [, dropGameSlot5] = useDrop({
     accept: 'dToon',
-    drop: (item) => isRoundOneScored ? handleGameDrop(5, item.dToon, item.fromDeckSlot) : null,
+    drop: (item) => handleGameDrop(5, item.dToon, item.fromDeckSlot),
     canDrop: () => !gameSlot5,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -116,7 +116,7 @@ const DeckSelect = () => {
   });
   const [, dropGameSlot6] = useDrop({
     accept: 'dToon',
-    drop: (item) => isRoundOneScored ? handleGameDrop(6, item.dToon, item.fromDeckSlot) : null,
+    drop: (item) => handleGameDrop(6, item.dToon, item.fromDeckSlot),
     canDrop: () => !gameSlot6,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -124,7 +124,7 @@ const DeckSelect = () => {
   });
   const [, dropGameSlot7] = useDrop({
     accept: 'dToon',
-    drop: (item) => isRoundOneScored ? handleGameDrop(7, item.dToon, item.fromDeckSlot) : null,
+    drop: (item) => handleGameDrop(7, item.dToon, item.fromDeckSlot),
     canDrop: () => !gameSlot7,
     collect: (monitor) => ({
       isOver: !!monitor.isOver(),
@@ -267,6 +267,22 @@ const DeckSelect = () => {
   });
 
 
+  function createDropGameSlot(gameSlot, index) {
+    console.log('createDropGameSlot', gameSlot, index);
+    const [, drop] = useDrop({
+      accept: 'dToon',
+      drop: (item) => handleGameDrop(gameSlot, item.dToon, item.fromDeckSlot),
+      canDrop: () => !gameSlots[index],
+      collect: (monitor) => ({
+        isOver: !!monitor.isOver(),
+      }),
+    });
+    return drop;
+  };
+
+  const dropGameSlots = gameSlots.map((slot, index) => createDropGameSlot(index + 1, index));
+  console.log('DROP GAME SLOTS', dropGameSlots);
+
 
 
 
@@ -300,12 +316,26 @@ const DeckSelect = () => {
   return (
     <div className='theGameDisplay'>
 
-    <button onClick={() => shuffleAndDeal(playerOneDeck)}>DEAL CARDS</button>
+      <button onClick={() => shuffleAndDeal(playerOneDeck)}>DEAL CARDS</button>
 
 
       {/* THE SCOREBOARD (LEFT SIDE) */}
 
       <div className='scoreboard'>
+
+
+        {deckSlots.map((slot, index) => (
+          <div key={index} className='cardSlot'>
+            {slot ? (
+              <div>
+                <DragnDrop dToon={slot} deckSlot={index + 1} />
+              </div>
+            ) : (
+              'EMPTY SLOT'
+            )}
+          </div>
+        ))}
+
 
       </div>
 
@@ -489,12 +519,3 @@ const DeckSelect = () => {
 }
 
 export default DeckSelect
-
-
-
-// {dealtCards.map((card) => (
-//   <div key={card.id} className='deckCircle'>
-//     {/* <GameDeckToon dToon={card} /> */}
-//     <DragnDrop dToon={card} />
-//   </div>
-// ))}
