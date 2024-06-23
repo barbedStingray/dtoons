@@ -1,5 +1,63 @@
-.toonImage {
-    border: 2px solid black;
-    height: 155px;
-    width: auto;
+.dToonStore {
+    border: 2px solid red;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: -5;
 }
+
+
+.rainbow {
+    height: 60vh;
+    aspect-ratio: 1 / 1.5;
+    background: rgb(54, 54, 54);
+    position: relative;
+    border-radius: 0.5rem;
+    /* z-index: 0; */
+    border: none;
+}
+
+.rainbow::before,
+.rainbow::after {
+    content: "";
+    position: absolute;
+    inset: -0.5rem;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+            from var(--gradient-angle),
+            #fd004c,
+            #fe9000,
+            #fff020,
+            #3edf4b,
+            #0741fc,
+            #b102b7,
+            #fd004c);
+    animation: rotation 10s linear infinite;
+}
+
+.rainbow::after {
+    filter: blur(2.5rem);
+}
+
+@property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+/* have to register your animated custom value */
+@keyframes rotation {
+    0% {
+        --gradient-angle: 0deg;
+    }
+
+    100% {
+        --gradient-angle: 360deg;
+    }
+}
+

@@ -33,18 +33,24 @@ const StorePage = () => {
   return (
     <div className='dToonStore'>
 
-      <div className='dToonTitles'>
+
+    <div className='rainbow'>
+    </div>
+
+    {/* <button className='rainbow'>BUY</button> */}
+
+
+      {/* <div className='dToonTitles'>
         <h1>STORE dToons</h1>
         <button onClick={buydToonPack}>Buy dToon Pack</button>
-        {/* This will eventually be a scrolling display */}
         <h2>So. Many. Cards.</h2>
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         {storeDtoons.map((dToon) => (
           <ExpandableCard key={dToon.id} dToon={dToon} />
         ))}
-      </div>
+      </div> */}
 
     </div>
   )

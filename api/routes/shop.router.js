@@ -7,7 +7,7 @@ const router = express.Router();
 // dToon 3 random store display
 router.get('/display', (req, res) => {
     const queryText = `SELECT * FROM "dtoons"
-                        ORDER BY RANDOM() LIMIT 3;`;
+                        ORDER BY RANDOM() LIMIT 4;`;
 
     pool.query(queryText).then((result) => {
         console.log(`/api/shop/display query success!`);
