@@ -104,7 +104,7 @@
     height: 24vh;
     /* display: flex; */
     /* flex-flow: column wrap; */
-    flex: 1;
+    flex: 3;
     display: grid;
     grid-template-columns: 1fr 1fr;
 

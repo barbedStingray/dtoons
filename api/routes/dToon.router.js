@@ -16,6 +16,13 @@ router.get('/deckOne/:id', (req, res) => {
     "dtoons"."color",
     "dtoons"."points",
     "dtoons"."desc0",
+
+    "dtoons"."bonus0",
+    "dtoons"."anyeach0",
+    "dtoons"."target0",
+    "dtoons"."condition0",
+    "dtoons"."location0",
+
     "dtoons"."desc1",
     "dtoons"."cardtype",
     "dtoons"."cardkind",
