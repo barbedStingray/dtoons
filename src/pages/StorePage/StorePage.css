@@ -2,14 +2,98 @@
     border: 2px solid red;
     display: flex;
     flex: 1;
-    flex-direction: column;
-    background-color: black;
-    color: white;
+    flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
+
+    gap: 7vh;
+
+    background-color: black;
+    color: white;
+
+    /* needed for the rainbow - position/z-index */
     position: relative;
     z-index: -5;
 }
+
+
+
+.colorPacks {
+    border: 2px solid white;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    height: 25vh;
+    width: 45vh;
+}
+
+.carouselButton {
+    border: 2px solid purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    height: 40%;
+}
+
+.singlePack {
+    border: 2px solid orange;
+    display: flex;
+    flex: 4;
+    flex-flow: row nowrap;
+    height: 60%;
+}
+
+.blueImage {
+    border: 2px solid blue;
+    flex: 2;
+}
+
+.titlePurchase {
+    border: 2px solid green;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: center;
+    flex: 5;
+}
+
+.colorButtonBlue {
+    height: 30%;
+    width: 60%;
+    border-radius: 25px;
+    border: none;
+    /* aspect-ratio: 1 / 1.5; */
+    position: relative;
+
+}
+.colorButtonBlue:before,
+.colorButtonBlue:after {
+    content: "";
+    position: absolute;
+    inset: -0.5rem;
+    inset: -0.5vh;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+            from var(--gradient-angle),
+            #1500fd,
+            #006aff,
+            #00bafe,
+            #4aedff,
+            #00bafe,
+            #006aff,
+            #006aff,
+            #00bafe,
+            #4aedff,
+            #00bafe,
+            #006aff,
+            #1500fd);
+    animation: rotation 5s linear infinite;
+}
+
+
 
 
 .rainbow {

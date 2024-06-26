@@ -33,11 +33,21 @@ const StorePage = () => {
   return (
     <div className='dToonStore'>
 
+      <div className='colorPacks'>
+        <div className='carouselButton'><p>BB</p></div>
+        <div className='singlePack'>
+          <div className='blueImage'></div>
+          <div className='titlePurchase'>
+            <p>Blue Card Pack</p>
+            <button className='colorButtonBlue'>PURCHASE</button>
+          </div>
+        </div>
+        <div className='carouselButton'><p>FF</p></div>
+      </div>
 
-    <div className='rainbow'>
-    </div>
+      <div className='rainbow'></div>
 
-    {/* <button className='rainbow'>BUY</button> */}
+      {/* <button className='rainbow'>BUY</button> */}
 
 
       {/* <div className='dToonTitles'>
