@@ -10,7 +10,6 @@
 
     background-color: black;
     color: white;
-
     /* needed for the rainbow - position/z-index */
     position: relative;
     z-index: -5;
@@ -59,21 +58,24 @@
     flex: 5;
 }
 
-.colorButtonBlue {
+.colorButtonBlue,
+.colorButtonRed {
     height: 30%;
     width: 60%;
     border-radius: 25px;
     border: none;
     /* aspect-ratio: 1 / 1.5; */
     position: relative;
-
+    background-color: black;
+    color: white;
 }
+
 .colorButtonBlue:before,
 .colorButtonBlue:after {
     content: "";
     position: absolute;
-    inset: -0.5rem;
-    inset: -0.5vh;
+    /* inset: -0.5rem; */
+    inset: -0.25vh;
     z-index: -1;
     border-radius: inherit;
     background: conic-gradient(
@@ -90,6 +92,30 @@
             #00bafe,
             #006aff,
             #1500fd);
+    animation: rotation 5s linear infinite;
+}
+.colorButtonRed:before,
+.colorButtonRed:after {
+    content: "";
+    position: absolute;
+    /* inset: -0.5rem; */
+    inset: -0.25vh;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+            from var(--gradient-angle),
+            #600000,
+            #8d0000,
+            #d40000,
+            #ff0000,
+            #d40000,
+            #8d0000,
+            #8d0000,
+            #d40000,
+            #ff0000,
+            #d40000,
+            #8d0000,
+            #600000);
     animation: rotation 5s linear infinite;
 }
 

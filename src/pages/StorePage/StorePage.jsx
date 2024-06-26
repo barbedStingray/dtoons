@@ -24,11 +24,21 @@ const StorePage = () => {
   function buydToonPack() {
 
     // ? logic for different themed packs passed as parameters
-
     console.log('buying dtoon pack of 2', user.id);
     dispatch({ type: 'BUY_DTOON_PACK', payload: user });
     navigate('/newdToon');
   }
+
+  const colorPacks = [
+    {
+      color: 'Blue',
+      button: 'colorButtonBlue',
+    },
+    {
+      color: 'Red',
+      button: 'colorButtonRed',
+    },
+  ]
 
   return (
     <div className='dToonStore'>
@@ -43,6 +53,23 @@ const StorePage = () => {
           </div>
         </div>
         <div className='carouselButton'><p>FF</p></div>
+      </div>
+
+      <div className='colorPacks'>
+        {colorPacks.map((pack) => (
+          <>
+            <div className='carouselButton'><p>BB</p></div>
+            <div className='singlePack'>
+              <div className='blueImage'></div>
+              <div className='titlePurchase'>
+                <p>{pack.color} Card Pack</p>
+                <button className={pack.button}>PURCHASE</button>
+              </div>
+            </div>
+            <div className='carouselButton'><p>FF</p></div>
+          </>
+
+        ))}
       </div>
 
       <div className='rainbow'></div>
